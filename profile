@@ -74,12 +74,18 @@ On_White='\e[47m'       # White
 NC="\e[m"               # Color Reset
 Color_Off=$NC
 
-#Tmux aliasing
+# Tmux aliasing
 alias tmux="tmux -u -2"
 alias tls="tmux -u -2 ls"
 alias tt="tmux -u -2 attach -t"
 
-
 alias j="jobs"
 
+# build system aliasing
+alias cmakebuild="mkdir build && cd build && cmake .."
+alias cmakeclean="rm -r build"
+
+
+
+# other configurations
 source $PWD/.others
