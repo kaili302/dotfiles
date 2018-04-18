@@ -36,7 +36,8 @@ alias ffind='find . -iname'
 
 # git alias
 alias gs='git status'
-alias gc='git checkout'
+alias gd='git diff'
+alias gb='git branch'
 alias gitlg='git log --graph --pretty=format:'\''%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset'\'' --abbrev-commit'
 alias gitup='git push --set-upstream origin'
 alias gitsync='git pull upstream master'
@@ -82,4 +83,4 @@ alias tt="tmux -u -2 attach -t"
 
 alias j="jobs"
 
-source $PWD/.others
+source ~/.others
