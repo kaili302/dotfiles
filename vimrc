@@ -13,7 +13,7 @@ call vundle#begin()
 " let Vundle manage Vundle, required
 Plugin 'VundleVim/Vundle.vim'
 
-Plugin 'Valloric/YouCompleteMe'
+"Plugin 'Valloric/YouCompleteMe'
 
 Plugin 'scrooloose/nerdtree'
 
@@ -119,7 +119,7 @@ autocmd BufEnter * execute 'sign place 9999 line=1 name=dummy buffer=' . bufnr('
 highlight clear SignColumn
 
 "Only enable ycm for certain types of file
-let g:ycm_filetype_whitelist = { 'cpp': 1, 'c': 1, "py": 1}
+"let g:ycm_filetype_whitelist = { 'cpp': 1, 'c': 1, "py": 1}
 
 nnoremap H gT
 nnoremap L gt

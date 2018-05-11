@@ -38,6 +38,7 @@ alias ffind='find . -iname'
 alias gs='git status'
 alias gd='git diff'
 alias gb='git branch'
+alias gc='git checkout'
 alias gitlg='git log --graph --pretty=format:'\''%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset'\'' --abbrev-commit'
 alias gitup='git push --set-upstream origin'
 alias gitsync='git pull upstream master'
@@ -88,3 +89,5 @@ alias cmakeclean="rm -r build"
 
 # other configurations
 source ~/.others
+
+tmux
