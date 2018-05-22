@@ -89,5 +89,3 @@ alias cmakeclean="rm -r build"
 
 # other configurations
 source ~/.others
-
-tmux
