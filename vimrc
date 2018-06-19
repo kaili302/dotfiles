@@ -49,10 +49,15 @@ let mapleader=","
 
 " Basic {{{
 syntax on
-set mouse=a
+set mouse=nicr
 set number
+set cul!
 set encoding=utf-8
 set spell spelllang=en_us
+
+" Clear highlighting on escape in normal mode
+nnoremap <esc> :noh<return><esc>
+nnoremap <esc>^[ <esc>^[
 " }}}
 
 " Spaces and Tabs {{{
@@ -100,8 +105,10 @@ autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in
 set hlsearch
 
 set ttyfast
-set cursorline
 set lazyredraw
+
+set synmaxcol=128
+syntax sync minlines=256
 
 set ignorecase
 set smartcase
