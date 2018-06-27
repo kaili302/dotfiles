@@ -21,6 +21,8 @@ Bundle 'jistr/vim-nerdtree-tabs'
 
 Plugin 'wesQ3/vim-windowswap'
 
+Plugin 'mileszs/ack.vim'
+
 "Plugin 'jiangmiao/auto-pairs'
 
 Plugin 'joshdick/onedark.vim'
@@ -107,6 +109,12 @@ autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isT
 autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in") | exe 'NERDTree' argv()[0] | wincmd p | ene | endif
 " }}}
 
+" ag + ack.vim {{{
+let g:ackprg = 'ag --nogroup --nocolor --column'
+nnoremap <leader>s :Ack<space>
+" }}}
+
+
 set hlsearch
 
 set ttyfast
@@ -118,13 +126,6 @@ syntax sync minlines=256
 set ignorecase
 set smartcase
 
-"fzf finder
-set rtp+=~/.fzf
-nnoremap <leader>p :Files <CR>
-nnoremap <C-p> :Files <CR>
-nnoremap <leader>b :Buffers <CR>
-nnoremap \ :Buffers <CR>
-
 "always show gutter aka sign column, and clear its colour
 autocmd BufEnter * sign define dummy
 autocmd BufEnter * execute 'sign place 9999 line=1 name=dummy buffer=' . bufnr('')
@@ -135,3 +136,27 @@ nnoremap L gt
 
 "strip all trailing whitespace everytime you save the file for all file types
 autocmd BufEnter * EnableStripWhitespaceOnSave
+
+
+""" Help Documents {{{
+
+" Key mapping {
+" <BS>           Backspace
+" <Tab>          Tab
+" <CR>           Enter
+" <Enter>        Enter
+" <Return>       Enter
+" <Esc>          Escape
+" <Space>        Space
+" <Up>           Up arrow
+" <Down>         Down arrow
+" <Left>         Left arrow
+" <Right>        Right arrow
+" <Insert>       Insert
+" <Del>          Delete
+" <Home>         Home
+" <End>          End
+" <bar>          the '|' character, which otherwise needs to be escaped '\|'
+" } End Key mapping
+
+" }}}
