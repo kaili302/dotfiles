@@ -88,15 +88,24 @@ set cinoptions+=g2,h2
 
 colorscheme onedark
 
+
+
+" NerdTree {{{
 let g:NERDTreeDirArrowExpandable = '+'
 let g:NERDTreeDirArrowCollapsible = '~'
 let NERDTreeIgnore = ['\.pyc$']
+" make vim-nerdtree-tab auto start
+let g:nerdtree_tabs_open_on_console_startup = 1
+autocmd BufWinEnter * :NERDTreeTabsOpen
+autocmd BufWinEnter * :NERDTreeMirrorOpen
+" toggle NerdTree
 map<C-n> :NERDTreeTabsToggle<CR>
 
 autocmd StdinReadPre * let s:std_in=1
 autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in") | exe 'NERDTree' argv()[0] | wincmd p | ene | endif
+" }}}
 
 set hlsearch
 
