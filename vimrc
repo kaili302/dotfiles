@@ -13,11 +13,13 @@ call vundle#begin()
 " let Vundle manage Vundle, required
 Plugin 'VundleVim/Vundle.vim'
 
-"Plugin 'Valloric/YouCompleteMe'
-
 Plugin 'scrooloose/nerdtree'
 
+Bundle 'jistr/vim-nerdtree-tabs'
+
 "Plugin 'scrooloose/nerdcommenter'
+
+Plugin 'wesQ3/vim-windowswap'
 
 "Plugin 'jiangmiao/auto-pairs'
 
@@ -74,12 +76,9 @@ set smartindent             " smart indent
 set backspace=indent,eol,start " make the backspace work like in most other programs
 " }}}
 
-" TODO
-
 
 set ruler
 set showmatch
-"colorscheme onedark
 " Uncomment below to make screen not flash on error
 " set vb t_vb=""
 
@@ -92,10 +91,7 @@ colorscheme onedark
 let g:NERDTreeDirArrowExpandable = '+'
 let g:NERDTreeDirArrowCollapsible = '~'
 let NERDTreeIgnore = ['\.pyc$']
-
-
-map<C-n> :NERDTreeToggle<CR>
-map <Leader>vp :VimuxPromptCommand<CR>
+map<C-n> :NERDTreeTabsToggle<CR>
 
 autocmd StdinReadPre * let s:std_in=1
 autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
@@ -125,14 +121,8 @@ autocmd BufEnter * sign define dummy
 autocmd BufEnter * execute 'sign place 9999 line=1 name=dummy buffer=' . bufnr('')
 highlight clear SignColumn
 
-"Only enable ycm for certain types of file
-"let g:ycm_filetype_whitelist = { 'cpp': 1, 'c': 1, "py": 1}
-
 nnoremap H gT
 nnoremap L gt
-nnoremap <C-Insert> :tabnew<CR>
-nnoremap <C-Delete> :tabclose<CR>
 
 "strip all trailing whitespace everytime you save the file for all file types
 autocmd BufEnter * EnableStripWhitespaceOnSave
-
