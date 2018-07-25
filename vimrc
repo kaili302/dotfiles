@@ -84,12 +84,11 @@ set showmatch
 " Uncomment below to make screen not flash on error
 " set vb t_vb=""
 
-set colorcolumn=100
+set colorcolumn=79
 
 set cinoptions+=g2,h2
 
 colorscheme onedark
-
 
 
 " NerdTree {{{
@@ -114,11 +113,14 @@ let g:ackprg = 'ag --nogroup --nocolor --column'
 nnoremap <leader>s :Ack<space>
 " }}}
 
+nnoremap <leader>p :set paste<CR>
+nnoremap <leader>np :set nopaste<CR>
+nnoremap <leader>n :set number<CR>
+nnoremap <leader>nn :set nonumber<CR>
 
 set hlsearch
 
 set ttyfast
-set lazyredraw
 
 set synmaxcol=128
 syntax sync minlines=256

@@ -42,6 +42,7 @@ alias gc='git checkout'
 alias gitlg='git log --graph --pretty=format:'\''%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset'\'' --abbrev-commit'
 alias gitup='git push --set-upstream origin'
 alias gitsync='git pull upstream master'
+alias gitclean='git branch|grep -v master|xargs git branch -D'
 
 # Normal Colors
 Black='\e[0;30m'        # Black
