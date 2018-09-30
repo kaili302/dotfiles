@@ -17,13 +17,13 @@ Plugin 'scrooloose/nerdtree'
 
 Bundle 'jistr/vim-nerdtree-tabs'
 
-"Plugin 'scrooloose/nerdcommenter'
+Plugin 'scrooloose/nerdcommenter'
 
 Plugin 'wesQ3/vim-windowswap'
 
 Plugin 'mileszs/ack.vim'
 
-"Plugin 'jiangmiao/auto-pairs'
+Plugin 'jiangmiao/auto-pairs'
 
 Plugin 'joshdick/onedark.vim'
 
