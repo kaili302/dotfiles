@@ -27,9 +27,15 @@ Plugin 'jiangmiao/auto-pairs'
 
 Plugin 'joshdick/onedark.vim'
 
+Plugin 'vim-airline/vim-airline'
+
+Plugin 'vim-airline/vim-airline-themes'
+
 Bundle 'christoomey/vim-tmux-navigator'
 
 Plugin 'ntpeters/vim-better-whitespace'
+
+Plugin 'Valloric/YouCompleteMe'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -90,7 +96,6 @@ set cinoptions+=g2,h2
 
 colorscheme onedark
 
-
 " NerdTree {{{
 let g:NERDTreeDirArrowExpandable = '+'
 let g:NERDTreeDirArrowCollapsible = '~'
@@ -113,6 +118,41 @@ let g:ackprg = 'ag --nogroup --nocolor --column'
 nnoremap <leader>s :Ack<space>
 " }}}
 
+"YouCompleteMe {{{
+"-----------------------------------
+let g:ycm_global_ycm_extra_conf = '~/.vim/ycm_extra_conf.py'
+let g:ycm_show_diagnostics_ui = 1
+let g:ycm_max_diagnostics_to_display = 1000
+let g:ycm_always_populate_location_list = 1
+let g:ycm_autoclose_preview_window_after_completion = 1
+
+"this is experimental, these should be default settings!
+let g:ycm_auto_trigger = 1
+let g:ycm_semantic_triggers =  {
+  \   'c' : ['->', '.'],
+  \   'objc' : ['->', '.', 're!\[[_a-zA-Z]+\w*\s', 're!^\s*[^\W\d]\w*\s',
+  \             're!\[.*\]\s'],
+  \   'ocaml' : ['.', '#'],
+  \   'cpp,objcpp' : ['->', '.', '::'],
+  \   'perl' : ['->'],
+  \   'php' : ['->', '::'],
+  \   'cs,java,javascript,typescript,d,python,perl6,scala,vb,elixir,go' : ['.'],
+  \   'ruby' : ['.', '::'],
+  \   'lua' : ['.', ':'],
+  \   'erlang' : [':'],
+  \ }
+let g:ycm_path_to_python_interpreter="/opt/bb/bin/python"
+
+"diagmode of ycm
+nnoremap <F3> <Esc> :YcmDiags<CR>
+nnoremap <F2> :YcmCompleter FixIt<CR>
+nnoremap <F7> :YcmCompleter GoToDefinition<CR>
+nnoremap <F8> :YcmCompleter GoToDeclaration<CR>
+
+"Only enable ycm for certain types of file
+let g:ycm_filetype_whitelist = { 'cpp': 1}
+" }}}
+
 nnoremap <leader>p :set paste<CR>
 nnoremap <leader>np :set nopaste<CR>
 nnoremap <leader>n :set number<CR>
@@ -132,9 +172,6 @@ set smartcase
 autocmd BufEnter * sign define dummy
 autocmd BufEnter * execute 'sign place 9999 line=1 name=dummy buffer=' . bufnr('')
 highlight clear SignColumn
-
-nnoremap H gT
-nnoremap L gt
 
 "strip all trailing whitespace everytime you save the file for all file types
 autocmd BufEnter * EnableStripWhitespaceOnSave
