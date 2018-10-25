@@ -23,8 +23,6 @@ Plugin 'wesQ3/vim-windowswap'
 
 Plugin 'mileszs/ack.vim'
 
-Plugin 'jiangmiao/auto-pairs'
-
 Plugin 'joshdick/onedark.vim'
 
 Plugin 'vim-airline/vim-airline'

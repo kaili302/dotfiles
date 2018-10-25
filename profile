@@ -89,7 +89,8 @@ alias cmakebuild="mkdir build && cd build && cmake .."
 alias cmakeclean="rm -r build"
 
 # other configurations
-if [ -f "~/.others" ]; then
-    echo "source ~/.others"
-    source ~/.others
+echo "try source others"
+if [ -f "/home19/kli302/.others" ]; then
+    echo "source /home19/kli302/.others"
+    source /home19/kli302/.others
 fi
