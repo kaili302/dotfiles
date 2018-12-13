@@ -88,6 +88,8 @@ alias j="jobs"
 alias cmakebuild="mkdir build && cd build && cmake .."
 alias cmakeclean="rm -r build"
 
+export PATH=$HOME/bin:$PATH
+
 # other configurations
 echo "try source others"
 if [ -f "/home19/kli302/.others" ]; then
