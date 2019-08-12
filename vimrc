@@ -184,6 +184,10 @@ syntax sync minlines=256
 set ignorecase
 set smartcase
 
+" search from current line
+nnoremap <leader>c :.,$s///gc
+
+
 "always show gutter aka sign column, and clear its colour
 autocmd BufEnter * sign define dummy
 autocmd BufEnter * execute 'sign place 9999 line=1 name=dummy buffer=' . bufnr('')
