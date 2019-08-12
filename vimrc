@@ -1,7 +1,8 @@
 " Never put any lines in .vimrc that you don't understand.
 " https://dougblack.io/words/a-good-vimrc.html
 "
-
+" git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
+"
 " Vundle {{{
 set nocompatible              " be iMproved, required
 filetype off                  " required
@@ -16,6 +17,8 @@ Plugin 'VundleVim/Vundle.vim'
 Plugin 'scrooloose/nerdtree'
 
 Bundle 'jistr/vim-nerdtree-tabs'
+
+Plugin 'tpope/vim-fugitive'
 
 Plugin 'scrooloose/nerdcommenter'
 
@@ -33,7 +36,11 @@ Bundle 'christoomey/vim-tmux-navigator'
 
 Plugin 'ntpeters/vim-better-whitespace'
 
-Plugin 'Valloric/YouCompleteMe'
+Plugin 'godlygeek/tabular'
+
+Plugin 'kien/ctrlp.vim'
+
+"Plugin 'Valloric/YouCompleteMe'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -98,10 +105,10 @@ colorscheme onedark
 let g:NERDTreeDirArrowExpandable = '+'
 let g:NERDTreeDirArrowCollapsible = '~'
 let NERDTreeIgnore = ['\.pyc$']
-" make vim-nerdtree-tab auto start
-let g:nerdtree_tabs_open_on_console_startup = 1
-autocmd BufWinEnter * :NERDTreeTabsOpen
-autocmd BufWinEnter * :NERDTreeMirrorOpen
+" make vim-nerdtree-tab auto start. Don't do this
+" let g:nerdtree_tabs_open_on_console_startup = 1
+" autocmd BufWinEnter * :NERDTreeTabsOpen
+" autocmd BufWinEnter * :NERDTreeMirrorOpen
 " toggle NerdTree
 map<C-n> :NERDTreeTabsToggle<CR>
 
@@ -156,6 +163,17 @@ nnoremap <leader>np :set nopaste<CR>
 nnoremap <leader>n :set number<CR>
 nnoremap <leader>nn :set nonumber<CR>
 
+" vim-fugitive {{{
+nnoremap <leader>gs :Gstatus<CR>
+nnoremap <leader>gd :Gdiff<Space>
+" }}}
+
+" CtrlP{{{
+nnoremap <leader>cp :CtrlP<CR>
+set wildignore+=*/tmp/*,*/cmake.bld/*,*.so,*.swp,*.zip
+
+" }}}
+
 set hlsearch
 
 set ttyfast
@@ -172,8 +190,9 @@ autocmd BufEnter * execute 'sign place 9999 line=1 name=dummy buffer=' . bufnr('
 highlight clear SignColumn
 
 "strip all trailing whitespace everytime you save the file for all file types
-autocmd BufEnter * EnableStripWhitespaceOnSave
-
+let g:better_whitespace_enabled=1
+let g:strip_whitespace_on_save=1
+let g:strip_whitespace_confirm=0
 
 """ Help Documents {{{
 

@@ -39,6 +39,8 @@ alias gs='git status'
 alias gd='git diff'
 alias gb='git branch'
 alias gc='git checkout'
+alias gr='git remote'
+alias grv='git remote -v'
 alias gitlg='git log --graph --pretty=format:'\''%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset'\'' --abbrev-commit'
 alias gitup='git push --set-upstream origin'
 alias gitsync='git pull upstream master'
@@ -87,6 +89,8 @@ alias j="jobs"
 # build system aliasing
 alias cmakebuild="mkdir build && cd build && cmake .."
 alias cmakeclean="rm -r build"
+alias makj="if rm -rf log && make -C cmake.bld/Linux >log 2>&1; then echo Succeed!; else less log; fi"
+alias makj="if rm -rf log && make -C cmake.bld/Linux -j >log 2>&1; then echo Succeed!; else less log; fi"
 
 export PATH=$HOME/bin:$PATH
 
