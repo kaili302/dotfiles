@@ -36,7 +36,7 @@ alias ffind='find . -iname'
 
 # git alias
 alias gs='git status'
-alias gd='git diff'
+alias gd='git diff -w'
 alias gb='git branch'
 alias gc='git checkout'
 alias gr='git remote'

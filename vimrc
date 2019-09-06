@@ -170,7 +170,7 @@ nnoremap <leader>gd :Gdiff<Space>
 
 " CtrlP{{{
 nnoremap <leader>cp :CtrlP<CR>
-set wildignore+=*/tmp/*,*/cmake.bld/*,*.so,*.swp,*.zip
+set wildignore+=*/tmp/*,*/cmake.bld/*,*/CMakeFiles/*,*.so,*.swp,*.zip
 
 " }}}
 
