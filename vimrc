@@ -38,6 +38,12 @@ Plugin 'kien/ctrlp.vim'
 
 Plugin 'terryma/vim-multiple-cursors' " Select multi location
 
+Plugin 'jiangmiao/auto-pairs'
+
+Plugin 'tpope/vim-surround'
+" ds'  -> delete both ', cs"' -> change " to '
+
+
 "Plugin 'Valloric/YouCompleteMe'
 
 " All of your Plugins must be added before the following line
