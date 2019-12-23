@@ -36,9 +36,11 @@ Plugin 'itchyny/lightline.vim' " Change StatusBar style
 
 Plugin 'kien/ctrlp.vim'
 
+Plugin 'vim-scripts/a.vim'
+
 Plugin 'terryma/vim-multiple-cursors' " Select multi location
 
-Plugin 'jiangmiao/auto-pairs'
+" Plugin 'jiangmiao/auto-pairs'  dont use this!!!!! hard to use
 
 Plugin 'tpope/vim-surround'
 " ds'  -> delete both ', cs"' -> change " to '
@@ -229,7 +231,18 @@ nnoremap <leader>np :set nopaste<CR>
 nnoremap <leader>n :set number<CR>
 nnoremap <leader>nn :set nonumber<CR>
 
+" Use Ctrl+O in Insert mode to run one Normal mode command {{{
 
+"jump to end of line while in Insert Mode
+inoremap <C-e> <C-o>$
+
+"jump to begin of line while in Insert Mode
+inoremap <C-a> <C-o>0
+
+"delete current line while in Insert Mode
+inoremap <C-d> <C-o>dd
+
+" }}}
 
 """ Help Documents {{{
 
