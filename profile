@@ -9,6 +9,7 @@ set -o emacs    # emacs style command line mode (default)
 #set -o vi      # vi style command line mode
 
 stty sane # should normalize backspace issues?
+stty -ixon # prevent ctrl-s freeze terminal
 
 # pass colours through to less
 export LESS="-R"
@@ -91,6 +92,7 @@ alias cmakebuild="mkdir build && cd build && cmake .."
 alias cmakeclean="rm -r build"
 alias makj="if rm -rf log && make -C cmake.bld/Linux >log 2>&1; then echo Succeed!; else less log; fi"
 alias makj="if rm -rf log && make -C cmake.bld/Linux -j >log 2>&1; then echo Succeed!; else less log; fi"
+
 
 export PATH=$HOME/bin:$PATH
 

@@ -38,7 +38,7 @@ Plugin 'kien/ctrlp.vim'
 
 Plugin 'vim-scripts/a.vim'
 
-Plugin 'terryma/vim-multiple-cursors' " Select multi location
+" Plugin 'terryma/vim-multiple-cursors' " dont use this!!!!! hard to use
 
 " Plugin 'jiangmiao/auto-pairs'  dont use this!!!!! hard to use
 
@@ -242,7 +242,16 @@ inoremap <C-a> <C-o>0
 "delete current line while in Insert Mode
 inoremap <C-d> <C-o>dd
 
+"save current file while in Insert Mode
+inoremap <C-s> <Esc>:w<Enter>
 " }}}
+
+xnoremap @ :<C-u>call ExecuteMacroOverVisualRange()<CR>
+
+function! ExecuteMacroOverVisualRange()
+  echo "@".getcmdline()
+  execute ":'<,'>normal @".nr2char(getchar())
+endfunction
 
 """ Help Documents {{{
 
