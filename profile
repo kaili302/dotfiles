@@ -21,6 +21,16 @@ export TZ="Europe/London"
 
 export TERM=screen-256color
 
+# set terminal to support utf-8
+if ! [ -x "$(command -v locale)" ]; then
+    echo 'Error: locale is not installed.' >&2
+else
+    export LC_ALL=en_US.UTF-8
+    export LANG=en_US.UTF-8
+    export LANGUAGE=en_US.UTF-8
+    echo 'terminal supports utf-8'
+fi
+
 # always color gtest
 export GTEST_COLOR=yes
 
