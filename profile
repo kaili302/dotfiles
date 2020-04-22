@@ -1,25 +1,19 @@
 # ~/.profile skeleton
 # ~/.profile runs on interactive login shells if it exists
 # =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-echo "~/.profile has run"
+echo "source $HOME/.profile"
 
 # =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 # commandline editing
 set -o emacs    # emacs style command line mode (default)
-#set -o vi      # vi style command line mode
 
-stty sane # should normalize backspace issues?
+stty sane # should normalize backspace issues
 stty -ixon # prevent ctrl-s freeze terminal
-
-# pass colours through to less
-export LESS="-R"
-export LESSOPEN='|~/.lessfilter %s'
-
 
 # set timezone to london, important for interaction with comdb2 databases
 export TZ="Europe/London"
 
-export TERM=screen-256color
+# export TERM=screen-256color
 
 # set terminal to support utf-8
 if ! [ -x "$(command -v locale)" ]; then
@@ -35,7 +29,6 @@ fi
 export GTEST_COLOR=yes
 
 # Aliasing
-alias xterm="xterm -ls &"
 
 #ls is quite a long command
 alias ll='ls -li'
@@ -47,7 +40,7 @@ alias ffind='find . -iname'
 
 # git alias
 alias gs='git status -sb'
-alias gd='git diff -w'
+alias gd='git diff -w --color=always'
 alias gb='git branch'
 alias gc='git checkout'
 alias gr='git remote'
@@ -100,15 +93,13 @@ alias j="jobs"
 # build system aliasing
 alias cmakebuild="mkdir build && cd build && cmake .."
 alias cmakeclean="rm -r build"
-alias makj="if rm -rf log && make -C cmake.bld/Linux >log 2>&1; then echo Succeed!; else less log; fi"
-alias makj="if rm -rf log && make -C cmake.bld/Linux -j >log 2>&1; then echo Succeed!; else less log; fi"
-
+alias mak="if make -C cmake.bld/Linux >log 2>&1; then echo Succeed!; else less log; fi"
+alias makj="if make -C cmake.bld/Linux -j >log 2>&1; then echo Succeed!; else less log; fi"
 
 export PATH=$HOME/bin:$PATH
 
 # other configurations
-echo "try source others"
-if [ -f "/home19/kli302/.others" ]; then
-    echo "source /home19/kli302/.others"
-    source /home19/kli302/.others
+if [ -f "$HOME/.others" ]; then
+    echo "source $HOME/.others"
+    source $HOME/.others
 fi

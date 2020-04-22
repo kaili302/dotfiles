@@ -32,8 +32,6 @@ Plugin 'ntpeters/vim-better-whitespace'
 
 Plugin 'itchyny/lightline.vim' " Change StatusBar style
 
-"Plugin 'godlygeek/tabular'  align text with pattern
-
 Plugin 'kien/ctrlp.vim'
 
 Plugin 'vim-scripts/a.vim'
@@ -46,7 +44,7 @@ Plugin 'tpope/vim-surround'
 " ds'  -> delete both ', cs"' -> change " to '
 
 
-Plugin 'Valloric/YouCompleteMe'
+"Plugin 'Valloric/YouCompleteMe'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -143,11 +141,6 @@ let g:ackprg = 'ag --nogroup --nocolor --column'
 nnoremap <leader>s :Ack<space>
 " }}}
 
-" vim-fugitive {{{
-nnoremap <leader>gs :Gstatus<CR>
-nnoremap <leader>gd :Gdiff<Space>
-" }}}
-
 " CtrlP{{{
 nnoremap <leader>cp :CtrlP<CR>
 set wildignore+=*/tmp/*,*/cmake.bld/*,*/CMakeFiles/*,*.so,*.swp,*.zip
@@ -193,38 +186,38 @@ let g:multi_cursor_quit_key            = '<Esc>'
 
 "YouCompleteMe {{{
 "-----------------------------------
-let g:ycm_global_ycm_extra_conf = '/bb/mbigh/mbig6544/MODA/moda-ycm/ycm_extra_conf.py'
-let g:ycm_show_diagnostics_ui = 1
-let g:ycm_max_diagnostics_to_display = 1000
-let g:ycm_always_populate_location_list = 1
-let g:ycm_autoclose_preview_window_after_completion = 1
+"let g:ycm_global_ycm_extra_conf = '/bb/mbigh/mbig6544/MODA/moda-ycm/ycm_extra_conf.py'
+"let g:ycm_show_diagnostics_ui = 1
+"let g:ycm_max_diagnostics_to_display = 1000
+"let g:ycm_always_populate_location_list = 1
+"let g:ycm_autoclose_preview_window_after_completion = 1
 
 "this is experimental, these should be default settings!
-let g:ycm_auto_trigger = 1
-let g:ycm_semantic_triggers =  {
-  \   'c' : ['->', '.'],
-  \   'objc' : ['->', '.', 're!\[[_a-zA-Z]+\w*\s', 're!^\s*[^\W\d]\w*\s',
-  \             're!\[.*\]\s'],
-  \   'ocaml' : ['.', '#'],
-  \   'cpp,objcpp' : ['->', '.', '::'],
-  \   'perl' : ['->'],
-  \   'php' : ['->', '::'],
-  \   'cs,java,javascript,typescript,d,python,perl6,scala,vb,elixir,go' : ['.'],
-  \   'ruby' : ['.', '::'],
-  \   'lua' : ['.', ':'],
-  \   'erlang' : [':'],
-  \ }
-let g:ycm_path_to_python_interpreter="/opt/bb/bin/python"
+"let g:ycm_auto_trigger = 1
+"let g:ycm_semantic_triggers =  {
+  "\   'c' : ['->', '.'],
+  "\   'objc' : ['->', '.', 're!\[[_a-zA-Z]+\w*\s', 're!^\s*[^\W\d]\w*\s',
+  "\             're!\[.*\]\s'],
+  "\   'ocaml' : ['.', '#'],
+  "\   'cpp,objcpp' : ['->', '.', '::'],
+  "\   'perl' : ['->'],
+  "\   'php' : ['->', '::'],
+  "\   'cs,java,javascript,typescript,d,python,perl6,scala,vb,elixir,go' : ['.'],
+  "\   'ruby' : ['.', '::'],
+  "\   'lua' : ['.', ':'],
+  "\   'erlang' : [':'],
+  "\ }
+"let g:ycm_path_to_python_interpreter="/opt/bb/bin/python"
 
 "diagmode of ycm
-nnoremap <F3> <Esc> :YcmDiags<CR>
-nnoremap <F2> :YcmCompleter FixIt<CR>
-nnoremap <F7> :YcmCompleter GoToDefinition<CR>
-nnoremap <F8> :YcmCompleter GoToDeclaration<CR>
+"nnoremap <F3> <Esc> :YcmDiags<CR>
+"nnoremap <F2> :YcmCompleter FixIt<CR>
+"nnoremap <F7> :YcmCompleter GoToDefinition<CR>
+"nnoremap <F8> :YcmCompleter GoToDeclaration<CR>
 
 "Only enable ycm for certain types of file
-let g:ycm_filetype_whitelist = { 'cpp': 1}
-" }}}
+"let g:ycm_filetype_whitelist = { 'cpp': 1}
+ "}}}
 
 nnoremap <leader>p :set paste<CR>
 nnoremap <leader>np :set nopaste<CR>
