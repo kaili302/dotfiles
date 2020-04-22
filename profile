@@ -103,3 +103,8 @@ if [ -f "$HOME/.others" ]; then
     echo "source $HOME/.others"
     source $HOME/.others
 fi
+
+# run zsh if not yet
+if ! ps $$|grep -q "zsh";then
+    zsh
+fi
