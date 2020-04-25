@@ -36,28 +36,31 @@ Plugin 'kien/ctrlp.vim'
 
 Plugin 'vim-scripts/a.vim'
 
-" Plugin 'terryma/vim-multiple-cursors' " dont use this!!!!! hard to use
-
-" Plugin 'jiangmiao/auto-pairs'  dont use this!!!!! hard to use
-
 Plugin 'tpope/vim-surround'
 " ds'  -> delete both ', cs"' -> change " to '
 
+"{{{ Install YouCompleteMe with clangd
+Plugin 'Valloric/YouCompleteMe'
+" Needs to compile YCM locally
+"
+"cd ~/.vim/bundle/YouCompleteMe
+"python3 install.py --clangd-completer
+"}}}
 
-"Plugin 'Valloric/YouCompleteMe'
+
+" {{{ plugins black list
+"
+" Plugin 'terryma/vim-multiple-cursors' " dont use this!!!!! hard to use
+" Plugin 'jiangmiao/auto-pairs'  dont use this!!!!! hard to use
+"
+"}}}
+
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
 filetype plugin indent on    " required
 " To ignore plugin indent changes, instead use:
 "filetype plugin on
-"
-" Brief help
-" :PluginList       - lists configured plugins
-" :PluginInstall    - installs plugins; append `!` to update or just :PluginUpdate
-" :PluginSearch foo - searches for foo; append `!` to refresh local cache
-" :PluginClean      - confirms removal of unused plugins; append `!` to auto-approve removal
-"
 " see :h vundle for more details or wiki for FAQ
 " Put your non-Plugin stuff after this line
 " }}}
@@ -90,7 +93,7 @@ filetype plugin on
 set autoindent              " auto indent
 set smartindent             " smart indent
 
-set backspace=indent,eol,start " make the backspace work like in most other programs
+set backspace=indent,eol,start " make the backspace work nicely
 " }}}
 
 " Paste mode and Number mode {{{
@@ -185,39 +188,60 @@ let g:multi_cursor_quit_key            = '<Esc>'
 "}}}
 
 "YouCompleteMe {{{
-"-----------------------------------
-"let g:ycm_global_ycm_extra_conf = '/bb/mbigh/mbig6544/MODA/moda-ycm/ycm_extra_conf.py'
-"let g:ycm_show_diagnostics_ui = 1
-"let g:ycm_max_diagnostics_to_display = 1000
-"let g:ycm_always_populate_location_list = 1
-"let g:ycm_autoclose_preview_window_after_completion = 1
 
-"this is experimental, these should be default settings!
-"let g:ycm_auto_trigger = 1
-"let g:ycm_semantic_triggers =  {
-  "\   'c' : ['->', '.'],
-  "\   'objc' : ['->', '.', 're!\[[_a-zA-Z]+\w*\s', 're!^\s*[^\W\d]\w*\s',
-  "\             're!\[.*\]\s'],
-  "\   'ocaml' : ['.', '#'],
-  "\   'cpp,objcpp' : ['->', '.', '::'],
-  "\   'perl' : ['->'],
-  "\   'php' : ['->', '::'],
-  "\   'cs,java,javascript,typescript,d,python,perl6,scala,vb,elixir,go' : ['.'],
-  "\   'ruby' : ['.', '::'],
-  "\   'lua' : ['.', ':'],
-  "\   'erlang' : [':'],
-  "\ }
+" Let clangd fully control code completion
+let g:ycm_clangd_uses_ycmd_caching = 0
+
+" Use installed clangd, not YCM-bundled clangd which doesn't get updates.
+let g:ycm_clangd_binary_path = exepath("clangd")
+
+" Show C++ syntax error in Vim gutter (the signs column)
+let g:ycm_show_diagnostics_ui = 1
+
+" Maximum number of errors or warnings diagnostics shown to the user
+let g:ycm_max_diagnostics_to_display = 30
+
+" YCM will auto-close the preview window after the user accepts the offered
+" completion string
+let g:ycm_autoclose_preview_window_after_completion = 1
+
+" If set to 0, turns off YCM's identifier completer (the as-you-type popup) and
+" the semantic triggers (the popup you'd get after typing . or -> in say C++).
+let g:ycm_auto_trigger = 1
+
+" Only enable YCM and clangd for CPP
+let g:ycm_filetype_whitelist = {'cpp': 1}
+
+"This command attempts to find all of the references within the project to the
+"identifier under the cursor and populates the quickfix list with those
+"locations.
+let g:ycm_complete_in_strings = 1
+
+"
+let g:ycm_semantic_triggers =  {
+  \   'c' : ['->', '.'],
+  \ }
+
 "let g:ycm_path_to_python_interpreter="/opt/bb/bin/python"
 
-"diagmode of ycm
-"nnoremap <F3> <Esc> :YcmDiags<CR>
-"nnoremap <F2> :YcmCompleter FixIt<CR>
-"nnoremap <F7> :YcmCompleter GoToDefinition<CR>
-"nnoremap <F8> :YcmCompleter GoToDeclaration<CR>
+"shortcuts
+nnoremap <leader>y :YcmCompleter<SPACE>
 
-"Only enable ycm for certain types of file
-"let g:ycm_filetype_whitelist = { 'cpp': 1}
- "}}}
+" Fix it
+nnoremap <leader>ft :YcmCompleter FixIt<CR>
+
+" Looks up the current line for a header and jumps to it.
+nnoremap <leader>yi :YcmCompleter GoToInclude<CR>
+
+" https://github.com/ycm-core/YouCompleteMe#the-gotoimprecise-subcommand
+nnoremap <leader>yd :YcmCompleter GoToImprecise<CR>
+
+" This command attempts to find all of the references within the project to
+" the identifier under the cursor and populates the quickfix list with those
+" locations.
+nnoremap <leader>yr :YcmCompleter GoToReferences<CR>
+
+"}}}
 
 nnoremap <leader>p :set paste<CR>
 nnoremap <leader>np :set nopaste<CR>
