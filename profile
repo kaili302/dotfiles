@@ -91,7 +91,7 @@ alias tt="tmux -u -2 attach -t"
 alias j="jobs"
 
 # build system aliasing
-alias cmakebuild="mkdir build && cd build && cmake .."
+alias cmakebuild="mkdir build && cd build && cmake -GNinja -DCMAKE_EXPORT_COMPILE_COMMANDS=1 .. && cp compile_commands.json ../"
 alias cmakeclean="rm -r build"
 alias mak="if make -C cmake.bld/Linux >log 2>&1; then echo Succeed!; else less log; fi"
 alias makj="if make -C cmake.bld/Linux -j >log 2>&1; then echo Succeed!; else less log; fi"
