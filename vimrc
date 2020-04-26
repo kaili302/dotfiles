@@ -39,14 +39,19 @@ Plugin 'vim-scripts/a.vim'
 Plugin 'tpope/vim-surround'
 " ds'  -> delete both ', cs"' -> change " to '
 
-"{{{ Install YouCompleteMe with clangd
-Plugin 'Valloric/YouCompleteMe'
-" Needs to compile YCM locally
-"
-"cd ~/.vim/bundle/YouCompleteMe
-"python3 install.py --clangd-completer
-"}}}
+" {{{ Language client for clangd
+Plugin 'autozimu/LanguageClient-neovim'
 
+" Required for 'autozimu/LanguageClient-neovim'
+" Need post installation:
+"  cd ~/.vim/bundle/fzf && ./install
+Plugin 'junegunn/fzf'
+
+" Required for 'autozimu/LanguageClient-neovim' auto completion
+"Plugin 'Shougo/deoplete.nvim'
+"Plugin 'roxma/nvim-yarp'
+"Plugin 'roxma/vim-hug-neovim-rpc'
+"}}}
 
 " {{{ plugins black list
 "
@@ -54,7 +59,6 @@ Plugin 'Valloric/YouCompleteMe'
 " Plugin 'jiangmiao/auto-pairs'  dont use this!!!!! hard to use
 "
 "}}}
-
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -150,11 +154,6 @@ set wildignore+=*/tmp/*,*/cmake.bld/*,*/CMakeFiles/*,*.so,*.swp,*.zip
 
 " }}}
 
-"always show gutter aka sign column, and clear its colour
-autocmd BufEnter * sign define dummy
-autocmd BufEnter * execute 'sign place 9999 line=1 name=dummy buffer=' . bufnr('')
-highlight clear SignColumn
-
 "strip all trailing whitespace everytime you save the file for all file types
 let g:better_whitespace_enabled=1
 let g:strip_whitespace_on_save=1
@@ -187,60 +186,37 @@ let g:multi_cursor_skip_key            = '<C-x>'
 let g:multi_cursor_quit_key            = '<Esc>'
 "}}}
 
-"YouCompleteMe {{{
+" {{ LanguageClient_neovim
+" Required for operations modifying multiple buffers like rename.
+set hidden
+" always show sign column, aka 'gutter'
+set signcolumn=yes
+" Add this plugin to vim/neovim runtimepath
+set runtimepath+=~/.vim/bundle/LanguageClient-neovim
+" Show list of all available actions
+nnoremap <leader>y :call LanguageClient_contextMenu()<CR>
+" Show type info (and short doc) of identifier under cursor
+nnoremap <leader>yh :call LanguageClient#textDocument_hover()<CR>
+" Goto definition under cursor.
+nnoremap <leader>yd :call LanguageClient#textDocument_definition()<CR>
+" Looks up the symbol under the cursor and jumps to its implementation (i.e.
+" non-interface). If there are multiple implementations, instead provides a
+" list of implementations to choose from.
+nnoremap <leader>yi :call LanguageClient#textDocument_implementation()<CR>
+" Rename identifier under cursor.
+nnoremap <leader>yr :call LanguageClient#textDocument_rename()<CR>
+" List all references of identifier under cursor.
+nnoremap <leader>yref :call LanguageClient#textDocument_references()<CR>
+" Show code actions at current location.
+nnoremap <leader>yc :call LanguageClient#textDocument_codeAction()<CR>
 
-" Let clangd fully control code completion
-let g:ycm_clangd_uses_ycmd_caching = 0
-
-" Use installed clangd, not YCM-bundled clangd which doesn't get updates.
-let g:ycm_clangd_binary_path = exepath("clangd")
-
-" Show C++ syntax error in Vim gutter (the signs column)
-let g:ycm_show_diagnostics_ui = 1
-
-" Maximum number of errors or warnings diagnostics shown to the user
-let g:ycm_max_diagnostics_to_display = 30
-
-" YCM will auto-close the preview window after the user accepts the offered
-" completion string
-let g:ycm_autoclose_preview_window_after_completion = 1
-
-" If set to 0, turns off YCM's identifier completer (the as-you-type popup) and
-" the semantic triggers (the popup you'd get after typing . or -> in say C++).
-let g:ycm_auto_trigger = 1
-
-" Only enable YCM and clangd for CPP
-let g:ycm_filetype_whitelist = {'cpp': 1}
-
-"This command attempts to find all of the references within the project to the
-"identifier under the cursor and populates the quickfix list with those
-"locations.
-let g:ycm_complete_in_strings = 1
-
-"
-let g:ycm_semantic_triggers =  {
-  \   'c' : ['->', '.'],
+" -cmake-extra-args: "-DCMAKE_EXPORT_COMPILE_COMMANDS=1"
+let g:LanguageClient_serverCommands = {
+  \ 'cpp': ['clangd', '-background-index',],
   \ }
 
-"let g:ycm_path_to_python_interpreter="/opt/bb/bin/python"
-
-"shortcuts
-nnoremap <leader>y :YcmCompleter<SPACE>
-
-" Fix it
-nnoremap <leader>ft :YcmCompleter FixIt<CR>
-
-" Looks up the current line for a header and jumps to it.
-nnoremap <leader>yi :YcmCompleter GoToInclude<CR>
-
-" https://github.com/ycm-core/YouCompleteMe#the-gotoimprecise-subcommand
-nnoremap <leader>yd :YcmCompleter GoToImprecise<CR>
-
-" This command attempts to find all of the references within the project to
-" the identifier under the cursor and populates the quickfix list with those
-" locations.
-nnoremap <leader>yr :YcmCompleter GoToReferences<CR>
-
+" Use deoplete for auto-completion
+let g:deoplete#enable_at_startup = 1
 "}}}
 
 nnoremap <leader>p :set paste<CR>
