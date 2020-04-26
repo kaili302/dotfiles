@@ -50,15 +50,7 @@ Plug 'autozimu/LanguageClient-neovim', {
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 
 " Required for 'autozimu/LanguageClient-neovim' auto completion
-if has('nvim')
-    Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-else
-    Plug 'Shougo/deoplete.nvim'
-    Plug 'roxma/nvim-yarp', {'do': 'pip3 install --user pynvim'}
-    " Must install: pip3 install --user pynvim
-    Plug 'roxma/vim-hug-neovim-rpc'
-endif
-let g:deoplete#enable_at_startup = 1
+Plug 'lifepillar/vim-mucomplete'
 "}}}
 
 " {{{ plugins black list
@@ -216,6 +208,13 @@ nnoremap <leader>yc :call LanguageClient#textDocument_codeAction()<CR>
 let g:LanguageClient_serverCommands = {
   \ 'cpp': ['clangd', '-background-index',],
   \ }
+
+" auto-completion with vim-mucomplete
+set completeopt+=menuone
+set completeopt+=noselect
+set shortmess+=c   " Shut off completion messages
+set belloff+=ctrlg " If Vim beeps during completion
+let g:mucomplete#enable_auto_at_startup = 1
 "}}}
 
 nnoremap <leader>p :set paste<CR>
