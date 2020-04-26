@@ -3,71 +3,73 @@
 "
 " git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
 "
-" Vundle {{{
-set nocompatible              " be iMproved, required
-filetype off                  " required
+" {{{ install vim-plug if not yet
+if empty(glob('~/.vim/autoload/plug.vim'))
+  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+endif
+" }}}
 
-" set the runtime path to include Vundle and initialize
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
+call plug#begin('~/.vim/bundle')
 
-" let Vundle manage Vundle, required
-Plugin 'VundleVim/Vundle.vim'
+Plug 'junegunn/vim-plug'
 
-Plugin 'scrooloose/nerdtree'
+Plug 'scrooloose/nerdtree'
 
-Bundle 'jistr/vim-nerdtree-tabs'
+Plug 'jistr/vim-nerdtree-tabs'
 
-Plugin 'scrooloose/nerdcommenter'
+Plug 'scrooloose/nerdcommenter'
 
-Plugin 'wesQ3/vim-windowswap'
+Plug 'wesQ3/vim-windowswap'
 
-Plugin 'mileszs/ack.vim'
+Plug 'mileszs/ack.vim'
 
-Plugin 'joshdick/onedark.vim'
+Plug 'joshdick/onedark.vim'
 
-Bundle 'christoomey/vim-tmux-navigator'
+Plug 'christoomey/vim-tmux-navigator'
 
-Plugin 'ntpeters/vim-better-whitespace'
+Plug 'ntpeters/vim-better-whitespace'
 
-Plugin 'itchyny/lightline.vim' " Change StatusBar style
+Plug 'itchyny/lightline.vim' " Change StatusBar style
 
-Plugin 'kien/ctrlp.vim'
+Plug 'kien/ctrlp.vim'
 
-Plugin 'vim-scripts/a.vim'
+Plug 'vim-scripts/a.vim'
 
-Plugin 'tpope/vim-surround'
+Plug 'tpope/vim-surround'
 " ds'  -> delete both ', cs"' -> change " to '
 
 " {{{ Language client for clangd
-Plugin 'autozimu/LanguageClient-neovim'
+Plug 'autozimu/LanguageClient-neovim', {
+    \ 'branch': 'next',
+    \ 'do': 'bash install.sh',
+    \ }
 
 " Required for 'autozimu/LanguageClient-neovim'
-" Need post installation:
-"  cd ~/.vim/bundle/fzf && ./install
-Plugin 'junegunn/fzf'
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 
 " Required for 'autozimu/LanguageClient-neovim' auto completion
-"Plugin 'Shougo/deoplete.nvim'
-"Plugin 'roxma/nvim-yarp'
-"Plugin 'roxma/vim-hug-neovim-rpc'
+if has('nvim')
+    Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+else
+    Plug 'Shougo/deoplete.nvim'
+    Plug 'roxma/nvim-yarp', {'do': 'pip3 install --user pynvim'}
+    " Must install: pip3 install --user pynvim
+    Plug 'roxma/vim-hug-neovim-rpc'
+endif
+let g:deoplete#enable_at_startup = 1
 "}}}
 
 " {{{ plugins black list
 "
-" Plugin 'terryma/vim-multiple-cursors' " dont use this!!!!! hard to use
-" Plugin 'jiangmiao/auto-pairs'  dont use this!!!!! hard to use
+" Plug 'terryma/vim-multiple-cursors' " dont use this!!!!! hard to use
+" Plug 'jiangmiao/auto-pairs'  dont use this!!!!! hard to use
 "
 "}}}
 
 " All of your Plugins must be added before the following line
-call vundle#end()            " required
-filetype plugin indent on    " required
-" To ignore plugin indent changes, instead use:
-"filetype plugin on
-" see :h vundle for more details or wiki for FAQ
-" Put your non-Plugin stuff after this line
-" }}}
+call plug#end()
 
 " Leader {{{
 let mapleader=","
@@ -214,9 +216,6 @@ nnoremap <leader>yc :call LanguageClient#textDocument_codeAction()<CR>
 let g:LanguageClient_serverCommands = {
   \ 'cpp': ['clangd', '-background-index',],
   \ }
-
-" Use deoplete for auto-completion
-let g:deoplete#enable_at_startup = 1
 "}}}
 
 nnoremap <leader>p :set paste<CR>
