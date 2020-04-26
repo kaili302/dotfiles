@@ -37,6 +37,9 @@ Plug 'kien/ctrlp.vim'
 
 Plug 'vim-scripts/a.vim'
 
+" A Vim plugin which shows a git diff in the sign column.
+Plug 'airblade/vim-gitgutter'
+
 Plug 'tpope/vim-surround'
 " ds'  -> delete both ', cs"' -> change " to '
 
@@ -215,6 +218,25 @@ set completeopt+=noselect
 set shortmess+=c   " Shut off completion messages
 set belloff+=ctrlg " If Vim beeps during completion
 let g:mucomplete#enable_auto_at_startup = 1
+"}}}
+
+" {{{ airblade/vim-gitgutter
+nmap ]h <Plug>(GitGutterNextHunk)
+nmap [h <Plug>(GitGutterPrevHunk)
+" stage the hunk with <Leader>hs
+" undo a hunk with <Leader>hu.
+" To stage part of any hunk:
+"   - preview the hunk, e.g. <Leader>hp;
+"   - move to the preview window
+"   - delete the lines you do not want to stage
+"   - stage the remaining lines: either write (:w) or <leader>hs
+"
+"When you make a change to a file tracked by git, the diff markers should
+"appear automatically. The delay is governed by vim's updatetime option the
+"default value is 4000, i.e. 4 seconds, but I suggest reducing it to around
+"100ms (add set updatetime=100 to your vimrc). Note updatetime also controls
+"the delay before vim writes its swap file (see :help updatetime).
+set updatetime=100
 "}}}
 
 nnoremap <leader>p :set paste<CR>
