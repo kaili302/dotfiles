@@ -189,11 +189,7 @@ let g:multi_cursor_quit_key            = '<Esc>'
 
 "YouCompleteMe {{{
 
-" Let clangd fully control code completion
-let g:ycm_clangd_uses_ycmd_caching = 0
-
-" Use installed clangd, not YCM-bundled clangd which doesn't get updates.
-let g:ycm_clangd_binary_path = exepath("clangd")
+let g:ycm_global_ycm_extra_conf = '/home19/kli302/.vim/ycm_extra_conf.py'
 
 " Show C++ syntax error in Vim gutter (the signs column)
 let g:ycm_show_diagnostics_ui = 1
@@ -222,7 +218,12 @@ let g:ycm_semantic_triggers =  {
   \   'c' : ['->', '.'],
   \ }
 
-"let g:ycm_path_to_python_interpreter="/opt/bb/bin/python"
+let g:ycm_path_to_python_interpreter="/opt/bb/bin/python"
+
+"always show gutter aka sign column, and clear its colour
+autocmd BufEnter * sign define dummy
+autocmd BufEnter * execute 'sign place 9999 line=1 name=dummy buffer=' . bufnr('')
+highlight clear SignColumn
 
 "shortcuts
 nnoremap <leader>y :YcmCompleter<SPACE>
