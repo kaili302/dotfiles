@@ -33,32 +33,23 @@ Plug 'joshdick/onedark.vim'
 
 Plug 'christoomey/vim-tmux-navigator'
 
-Plug 'ntpeters/vim-better-whitespace'
-
 Plug 'vim-scripts/a.vim'
 
 Plug 'airblade/vim-gitgutter'
 
-Plug 'tpope/vim-fugitive'
-
-" Plug 'vim-scripts/DoxygenToolkit.vim' don't need at BB
-
 Plug 'tpope/vim-surround'
 " ds'  -> delete both ', cs"' -> change " to '
 
-" {{{ Language client for clangd
-Plug 'autozimu/LanguageClient-neovim', {
-    \ 'branch': 'next',
-    \ 'do': 'bash install.sh',
-    \ }
+Plug 'dense-analysis/ale'
 
-" Required for 'autozimu/LanguageClient-neovim'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 
-" Required for 'autozimu/LanguageClient-neovim' auto completion
-Plug 'lifepillar/vim-mucomplete'
-"}}}
+" {{{ optional plugins
+" Plug 'vim-scripts/DoxygenToolkit.vim' don't need at BB
+"
+" Plug 'tpope/vim-fugitive' tmux+vim is already very good
+"
 
 " {{{ plugins black list
 "
@@ -151,46 +142,36 @@ let g:ackprg = 'ag --nogroup --nocolor --column'
 nnoremap <leader>s :Ack<space>
 " }}}
 
-"strip all trailing whitespace everytime you save the file for all file types
-let g:better_whitespace_enabled=1
-let g:strip_whitespace_on_save=1
-let g:strip_whitespace_confirm=0
-
-" {{ LanguageClient_neovim
-" Required for operations modifying multiple buffers like rename.
-set hidden
+" {{{ale
 " always show sign column, aka 'gutter'
 set signcolumn=yes
-" Add this plugin to vim/neovim runtimepath
-set runtimepath+=~/.vim/bundle/LanguageClient-neovim
-" Show list of all available actions
-nnoremap <leader>l :call LanguageClient_contextMenu()<CR>
+let g:ale_completion_enabled = 1
+let g:ale_completion_delay = 100
+let g:ale_linters = {
+    \ 'cpp': ['clangd', '-background-index',],
+    \}
+let g:ale_fixers = {
+    \   '*': ['remove_trailing_lines', 'trim_whitespace'],
+    \   'cpp': ['clangd'],
+    \}
+
+let g:ale_echo_msg_error_str = 'E'
+let g:ale_echo_msg_warning_str = 'W'
+let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
+
+
+let g:ale_sign_error = 'X'
+let g:ale_sign_warning = '!'
+" show errors or warnings in status line
+let g:airline#extensions#ale#enabled = 1
 " Show type info (and short doc) of identifier under cursor
-nnoremap <leader>lh :call LanguageClient#textDocument_hover()<CR>
+nnoremap <leader>ah :ALEHover<CR>
+
 " Goto definition under cursor.
-nnoremap <leader>ld :call LanguageClient#textDocument_definition()<CR>
-" Looks up the symbol under the cursor and jumps to its implementation (i.e.
-" non-interface). If there are multiple implementations, instead provides a
-" list of implementations to choose from.
-nnoremap <leader>li :call LanguageClient#textDocument_implementation()<CR>
-" Rename identifier under cursor.
-nnoremap <leader>lr :call LanguageClient#textDocument_rename()<CR>
-" List all references of identifier under cursor.
-nnoremap <leader>lref :call LanguageClient#textDocument_references()<CR>
-" Show code actions at current location.
-nnoremap <leader>lc :call LanguageClient#textDocument_codeAction()<CR>
-
-" -cmake-extra-args: "-DCMAKE_EXPORT_COMPILE_COMMANDS=1"
-let g:LanguageClient_serverCommands = {
-  \ 'cpp': ['clangd', '-background-index',],
-  \ }
-
-" auto-completion with vim-mucomplete
-set completeopt+=menuone
-set completeopt+=noselect
-set shortmess+=c   " Shut off completion messages
-set belloff+=ctrlg " If Vim beeps during completion
-let g:mucomplete#enable_auto_at_startup = 1
+nnoremap <leader>ad :ALEGoToDefinition<CR>
+nnoremap <leader>ar :ALEFindReferences -relative<CR>
+" searching for workspace symbols
+nnoremap <leader>af :ALEFix<CR>
 "}}}
 
 " {{{ airblade/vim-gitgutter
