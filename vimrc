@@ -246,11 +246,6 @@ let g:fzf_preview_window = ''
 let g:fzf_buffers_jump = 1
 " }}}
 
-nnoremap <leader>p :set paste<CR>
-nnoremap <leader>np :set nopaste<CR>
-nnoremap <leader>n :set number<CR>
-nnoremap <leader>nn :set nonumber<CR>
-
 " Use Ctrl+O in Insert mode to run one Normal mode command {{{
 
 "jump to end of line while in Insert Mode
