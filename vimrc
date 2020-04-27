@@ -39,29 +39,23 @@ Plug 'vim-scripts/a.vim'
 
 Plug 'airblade/vim-gitgutter'
 
-Plug 'tpope/vim-fugitive'
+Plug 'kien/ctrlp.vim'
 
-" Plug 'vim-scripts/DoxygenToolkit.vim' don't need at BB
+" Install for Linux
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 
 Plug 'tpope/vim-surround'
 " ds'  -> delete both ', cs"' -> change " to '
 
-" {{{ Language client for clangd
-Plug 'autozimu/LanguageClient-neovim', {
-    \ 'branch': 'next',
-    \ 'do': 'bash install.sh',
-    \ }
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
-" Required for 'autozimu/LanguageClient-neovim'
-Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-Plug 'junegunn/fzf.vim'
-
-" Required for 'autozimu/LanguageClient-neovim' auto completion
-Plug 'lifepillar/vim-mucomplete'
-"}}}
+" {{{ Optional
+" Plug 'tpope/vim-fugitive' " tmux and git alias are good enough
+" Plug 'vim-scripts/DoxygenToolkit.vim' don't need at BB
+" }}}
 
 " {{{ plugins black list
-"
+" Plug 'junegunn/fzf.vim'  " CtrlP is easier to use
 " Plug 'terryma/vim-multiple-cursors' " dont use this!!!!! hard to use
 " Plug 'jiangmiao/auto-pairs'  dont use this!!!!! hard to use
 " Plug 'octol/vim-cpp-enhanced-highlight' color is not very useful
@@ -128,10 +122,12 @@ set smartcase
 " search from current line
 nnoremap <leader>c :.,$s///gc
 
-
 set colorcolumn=79
 
 set cinoptions+=g2,h2
+
+" Syntax Highlighting with JSONC
+autocmd FileType json syntax match Comment +\/\/.\+$+
 
 colorscheme onedark
 
@@ -156,41 +152,94 @@ let g:better_whitespace_enabled=1
 let g:strip_whitespace_on_save=1
 let g:strip_whitespace_confirm=0
 
-" {{ LanguageClient_neovim
-" Required for operations modifying multiple buffers like rename.
+" {{ coc.nvim
+"
+":CocConfig
+"{
+	""languageserver": {
+		""clangd": {
+			""command": "clangd",
+			""rootPatterns": ["compile_flags.txt", "compile_commands.json"],
+			"// By default, clangd only knows the files you are currently editing.
+			"// To provide project-wide code navigations (e.g. find references),
+			"// clangd neesds a project-wide index. clangd will incrementally build
+			"// an index of the project in the background in {project_roote}/.cland/
+			""args": ["--background-index"],
+			""filetypes": ["c", "cpp"]
+		"}
+	"}
+"}
+
+" TextEdit might fail if hidden is not set.
 set hidden
-" always show sign column, aka 'gutter'
+
+" Some servers have issues with backup files, see #649.
+set nobackup
+set nowritebackup
+
+" Give more space for displaying messages.
+set cmdheight=2
+
+" Having longer updatetime (default is 4000 ms = 4 s) leads to noticeable
+" delays and poor user experience.
+set updatetime=100
+
+" Don't pass messages to |ins-completion-menu|.
+set shortmess+=c
+
+" Always show the signcolumn, otherwise it would shift the text each time
+" diagnostics appear/become resolved.
 set signcolumn=yes
-" Add this plugin to vim/neovim runtimepath
-set runtimepath+=~/.vim/bundle/LanguageClient-neovim
-" Show list of all available actions
-nnoremap <leader>l :call LanguageClient_contextMenu()<CR>
-" Show type info (and short doc) of identifier under cursor
-nnoremap <leader>lh :call LanguageClient#textDocument_hover()<CR>
-" Goto definition under cursor.
-nnoremap <leader>ld :call LanguageClient#textDocument_definition()<CR>
-" Looks up the symbol under the cursor and jumps to its implementation (i.e.
-" non-interface). If there are multiple implementations, instead provides a
-" list of implementations to choose from.
-nnoremap <leader>li :call LanguageClient#textDocument_implementation()<CR>
-" Rename identifier under cursor.
-nnoremap <leader>lr :call LanguageClient#textDocument_rename()<CR>
-" List all references of identifier under cursor.
-nnoremap <leader>lref :call LanguageClient#textDocument_references()<CR>
-" Show code actions at current location.
-nnoremap <leader>lc :call LanguageClient#textDocument_codeAction()<CR>
 
-" -cmake-extra-args: "-DCMAKE_EXPORT_COMPILE_COMMANDS=1"
-let g:LanguageClient_serverCommands = {
-  \ 'cpp': ['clangd', '-background-index',],
-  \ }
+" Use tab for trigger completion with characters ahead and navigate.
+inoremap <silent><expr> <TAB>
+      \ pumvisible() ? "\<C-n>" :
+      \ <SID>check_back_space() ? "\<TAB>" :
+      \ coc#refresh()
+inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
 
-" auto-completion with vim-mucomplete
-set completeopt+=menuone
-set completeopt+=noselect
-set shortmess+=c   " Shut off completion messages
-set belloff+=ctrlg " If Vim beeps during completion
-let g:mucomplete#enable_auto_at_startup = 1
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+
+" Use <cr> to confirm completion, `<C-g>u` means break undo chain at current
+" position. Coc only does snippet and additional edit on confirm.
+if exists('*complete_info')
+  inoremap <expr> <cr> complete_info()["selected"] != "-1" ? "\<C-y>" : "\<C-g>u\<CR>"
+else
+  imap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+endif
+
+" GoTo code navigation.
+nmap <silent> D <Plug>(coc-definition)
+" Remap keys for applying codeAction to the current line.
+nmap <silent> F <Plug>(coc-codeaction)
+" Show documentation in preview window.
+nnoremap <silent> H :call <SID>show_documentation()<CR>
+
+function! s:show_documentation()
+  if (index(['vim','help'], &filetype) >= 0)
+    execute 'h '.expand('<cword>')
+  else
+    call CocAction('doHover')
+  endif
+endfunction
+
+" Highlight the symbol and its references when holding the cursor.
+autocmd CursorHold * silent call CocActionAsync('highlight')
+
+augroup mygroup
+  autocmd!
+  " Setup formatexpr specified filetype(s).
+  autocmd FileType typescript,json setl formatexpr=CocAction('formatSelected')
+  " Update signature help on jump placeholder.
+  autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
+augroup end
+
+" Statusline support.
+let g:airline#extensions#coc#enabled = 1
+let airline#extensions#coc#error_symbol = 'ERROR:'
 "}}}
 
 " {{{ airblade/vim-gitgutter
