@@ -164,21 +164,21 @@ set signcolumn=yes
 " Add this plugin to vim/neovim runtimepath
 set runtimepath+=~/.vim/bundle/LanguageClient-neovim
 " Show list of all available actions
-nnoremap <leader>y :call LanguageClient_contextMenu()<CR>
+nnoremap <leader>l :call LanguageClient_contextMenu()<CR>
 " Show type info (and short doc) of identifier under cursor
-nnoremap <leader>yh :call LanguageClient#textDocument_hover()<CR>
+nnoremap <leader>lh :call LanguageClient#textDocument_hover()<CR>
 " Goto definition under cursor.
-nnoremap <leader>yd :call LanguageClient#textDocument_definition()<CR>
+nnoremap <leader>ld :call LanguageClient#textDocument_definition()<CR>
 " Looks up the symbol under the cursor and jumps to its implementation (i.e.
 " non-interface). If there are multiple implementations, instead provides a
 " list of implementations to choose from.
-nnoremap <leader>yi :call LanguageClient#textDocument_implementation()<CR>
+nnoremap <leader>li :call LanguageClient#textDocument_implementation()<CR>
 " Rename identifier under cursor.
-nnoremap <leader>yr :call LanguageClient#textDocument_rename()<CR>
+nnoremap <leader>lr :call LanguageClient#textDocument_rename()<CR>
 " List all references of identifier under cursor.
-nnoremap <leader>yref :call LanguageClient#textDocument_references()<CR>
+nnoremap <leader>lref :call LanguageClient#textDocument_references()<CR>
 " Show code actions at current location.
-nnoremap <leader>yc :call LanguageClient#textDocument_codeAction()<CR>
+nnoremap <leader>lc :call LanguageClient#textDocument_codeAction()<CR>
 
 " -cmake-extra-args: "-DCMAKE_EXPORT_COMPILE_COMMANDS=1"
 let g:LanguageClient_serverCommands = {

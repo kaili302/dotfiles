@@ -35,9 +35,6 @@ alias ll='ls -li'
 alias la='ls -lai'
 alias lu="ls -U"
 
-# find
-alias ffind='find . -iname'
-
 # git alias
 alias gs='git status -sb'
 alias gd='git diff -w --color=always'
