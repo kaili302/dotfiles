@@ -35,8 +35,6 @@ Plug 'christoomey/vim-tmux-navigator'
 
 Plug 'ntpeters/vim-better-whitespace'
 
-Plug 'kien/ctrlp.vim'
-
 Plug 'vim-scripts/a.vim'
 
 Plug 'airblade/vim-gitgutter'
@@ -56,6 +54,7 @@ Plug 'autozimu/LanguageClient-neovim', {
 
 " Required for 'autozimu/LanguageClient-neovim'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf.vim'
 
 " Required for 'autozimu/LanguageClient-neovim' auto completion
 Plug 'lifepillar/vim-mucomplete'
@@ -152,22 +151,10 @@ let g:ackprg = 'ag --nogroup --nocolor --column'
 nnoremap <leader>s :Ack<space>
 " }}}
 
-" CtrlP{{{
-nnoremap <leader>cp :CtrlP<CR>
-set wildignore+=*/tmp/*,*/cmake.bld/*,*/CMakeFiles/*,*.so,*.swp,*.zip
-
-" }}}
-
 "strip all trailing whitespace everytime you save the file for all file types
 let g:better_whitespace_enabled=1
 let g:strip_whitespace_on_save=1
 let g:strip_whitespace_confirm=0
-
-"ctrlp open in new tab"
-let g:ctrlp_prompt_mappings = {
-    \ 'AcceptSelection("e")': ['<2-LeftMouse>'],
-    \ 'AcceptSelection("t")': ['<cr>'],
-    \ }
 
 " {{ LanguageClient_neovim
 " Required for operations modifying multiple buffers like rename.
@@ -246,6 +233,17 @@ nnoremap <leader>gd :Git diff -w --color=always<CR>
 nnoremap <leader>gb :Git branch<CR>
 nnoremap <leader>gc :Git checkout<space>
 nnoremap <leader>gl :Git log --graph --pretty=format:'\''%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset'\'' --abbrev-commit<CR>
+" }}}
+
+" {{{ fzf
+" open file in new tab with <Enter>
+let g:fzf_action = { 'ctrl-m': 'tab split'}
+
+nnoremap <C-p> :GFiles<CR>
+" Empty value to disable preview window altogether
+let g:fzf_preview_window = ''
+" [Buffers] Jump to the existing window if possible
+let g:fzf_buffers_jump = 1
 " }}}
 
 nnoremap <leader>p :set paste<CR>
