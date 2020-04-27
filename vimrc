@@ -23,6 +23,10 @@ Plug 'scrooloose/nerdcommenter'
 
 Plug 'wesQ3/vim-windowswap'
 
+Plug 'bling/vim-airline'
+
+Plug 'vim-airline/vim-airline-themes'
+
 Plug 'mileszs/ack.vim'
 
 Plug 'joshdick/onedark.vim'
@@ -31,14 +35,15 @@ Plug 'christoomey/vim-tmux-navigator'
 
 Plug 'ntpeters/vim-better-whitespace'
 
-Plug 'itchyny/lightline.vim' " Change StatusBar style
-
 Plug 'kien/ctrlp.vim'
 
 Plug 'vim-scripts/a.vim'
 
-" A Vim plugin which shows a git diff in the sign column.
 Plug 'airblade/vim-gitgutter'
+
+Plug 'tpope/vim-fugitive'
+
+" Plug 'vim-scripts/DoxygenToolkit.vim' don't need at BB
 
 Plug 'tpope/vim-surround'
 " ds'  -> delete both ', cs"' -> change " to '
@@ -60,6 +65,8 @@ Plug 'lifepillar/vim-mucomplete'
 "
 " Plug 'terryma/vim-multiple-cursors' " dont use this!!!!! hard to use
 " Plug 'jiangmiao/auto-pairs'  dont use this!!!!! hard to use
+" Plug 'octol/vim-cpp-enhanced-highlight' color is not very useful
+" Plug 'itchyny/lightline.vim' " Use bling/vim-airline instead
 "
 "}}}
 
@@ -162,27 +169,6 @@ let g:ctrlp_prompt_mappings = {
     \ 'AcceptSelection("t")': ['<cr>'],
     \ }
 
-"LightVim {{{
-set laststatus=2
-let g:lightline = {
-      \ 'colorscheme': 'landscape',
-      \ }
-"}}}
-
-"multi-cursors {{{
-let g:multi_cursor_use_default_mapping=0
-
-" Default mapping
-let g:multi_cursor_start_word_key      = '<C-m>'
-let g:multi_cursor_select_all_word_key = '<A-m>'
-let g:multi_cursor_start_key           = 'g<C-m>'
-let g:multi_cursor_select_all_key      = 'g<A-m>'
-let g:multi_cursor_next_key            = '<C-m>'
-let g:multi_cursor_prev_key            = '<C-r>'
-let g:multi_cursor_skip_key            = '<C-x>'
-let g:multi_cursor_quit_key            = '<Esc>'
-"}}}
-
 " {{ LanguageClient_neovim
 " Required for operations modifying multiple buffers like rename.
 set hidden
@@ -223,6 +209,13 @@ let g:mucomplete#enable_auto_at_startup = 1
 " {{{ airblade/vim-gitgutter
 nmap ]h <Plug>(GitGutterNextHunk)
 nmap [h <Plug>(GitGutterPrevHunk)
+" Toggle Highlighting
+nnoremap <leader>h :GitGutterLineHighlightsToggle<CR>
+" command to fold all unchanged lines, leaving just the hunks visible
+nnoremap <leader>hf :GitGutterFold<CR>
+"Call the GitGutterGetHunkSummary() function from your status line to get a
+"list of counts of added, modified, and removed lines in the current buffer.
+
 " stage the hunk with <Leader>hs
 " undo a hunk with <Leader>hu.
 " To stage part of any hunk:
@@ -237,7 +230,23 @@ nmap [h <Plug>(GitGutterPrevHunk)
 "100ms (add set updatetime=100 to your vimrc). Note updatetime also controls
 "the delay before vim writes its swap file (see :help updatetime).
 set updatetime=100
+
+" Prefer non-gitgutter signs, default is 10
+let g:gitgutter_sign_priority=1
 "}}}
+
+" {{{ bling/vim-airline
+let g:airline_theme='murmur'
+"}}}
+
+" {{{ fugitive.vim
+nnoremap <leader>g :Git<space>
+nnoremap <leader>gs :Git status -sb<CR>
+nnoremap <leader>gd :Git diff -w --color=always<CR>
+nnoremap <leader>gb :Git branch<CR>
+nnoremap <leader>gc :Git checkout<space>
+nnoremap <leader>gl :Git log --graph --pretty=format:'\''%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset'\'' --abbrev-commit<CR>
+" }}}
 
 nnoremap <leader>p :set paste<CR>
 nnoremap <leader>np :set nopaste<CR>

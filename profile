@@ -90,6 +90,12 @@ alias tt="tmux -u -2 attach -t"
 
 alias j="jobs"
 
+# fzf
+alias fd="find * -type f | fzf"
+export FZF_COMPLETION_TRIGGER='*'
+# Can select multiple processes with <TAB> or <Shift-TAB> keys
+# kill -9 <TAB>
+
 # build system aliasing
 alias cmakebuild="mkdir build && cd build && cmake -GNinja -DCMAKE_EXPORT_COMPILE_COMMANDS=1 .. && cp compile_commands.json ../"
 alias cmakeclean="rm -r build"
