@@ -44,13 +44,12 @@ Plug 'kien/ctrlp.vim'
 " Install for Linux
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 
+Plug 'tpope/vim-fugitive' " example: :G blame
+
 Plug 'tpope/vim-surround'
 " ds'  -> delete both ', cs"' -> change " to '
 
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
-
 " {{{ Optional
-" Plug 'tpope/vim-fugitive' " tmux and git alias are good enough
 " Plug 'vim-scripts/DoxygenToolkit.vim' don't need at BB
 " }}}
 
@@ -131,6 +130,16 @@ autocmd FileType json syntax match Comment +\/\/.\+$+
 
 colorscheme onedark
 
+" CtrlP{{{
+nnoremap <leader>cp :CtrlP<CR>
+set wildignore+=*/tmp/*,*/cmake.bld/*,*/CMakeFiles/*,*.so,*.swp,*.zip
+"ctrlp open in new tab"
+let g:ctrlp_prompt_mappings = {
+    \ 'AcceptSelection("e")': ['<2-LeftMouse>'],
+    \ 'AcceptSelection("t")': ['<cr>'],
+    \ }
+" }}}
+
 " NerdTree {{{
 let g:NERDTreeDirArrowExpandable = '+'
 let g:NERDTreeDirArrowCollapsible = '~'
@@ -151,96 +160,6 @@ nnoremap <leader>s :Ack<space>
 let g:better_whitespace_enabled=1
 let g:strip_whitespace_on_save=1
 let g:strip_whitespace_confirm=0
-
-" {{ coc.nvim
-"
-":CocConfig
-"{
-	""languageserver": {
-		""clangd": {
-			""command": "clangd",
-			""rootPatterns": ["compile_flags.txt", "compile_commands.json"],
-			"// By default, clangd only knows the files you are currently editing.
-			"// To provide project-wide code navigations (e.g. find references),
-			"// clangd neesds a project-wide index. clangd will incrementally build
-			"// an index of the project in the background in {project_roote}/.cland/
-			""args": ["--background-index"],
-			""filetypes": ["c", "cpp"]
-		"}
-	"}
-"}
-
-" TextEdit might fail if hidden is not set.
-set hidden
-
-" Some servers have issues with backup files, see #649.
-set nobackup
-set nowritebackup
-
-" Give more space for displaying messages.
-set cmdheight=2
-
-" Having longer updatetime (default is 4000 ms = 4 s) leads to noticeable
-" delays and poor user experience.
-set updatetime=100
-
-" Don't pass messages to |ins-completion-menu|.
-set shortmess+=c
-
-" Always show the signcolumn, otherwise it would shift the text each time
-" diagnostics appear/become resolved.
-set signcolumn=yes
-
-" Use tab for trigger completion with characters ahead and navigate.
-inoremap <silent><expr> <TAB>
-      \ pumvisible() ? "\<C-n>" :
-      \ <SID>check_back_space() ? "\<TAB>" :
-      \ coc#refresh()
-inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
-
-function! s:check_back_space() abort
-  let col = col('.') - 1
-  return !col || getline('.')[col - 1]  =~# '\s'
-endfunction
-
-" Use <cr> to confirm completion, `<C-g>u` means break undo chain at current
-" position. Coc only does snippet and additional edit on confirm.
-if exists('*complete_info')
-  inoremap <expr> <cr> complete_info()["selected"] != "-1" ? "\<C-y>" : "\<C-g>u\<CR>"
-else
-  imap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
-endif
-
-" GoTo code navigation.
-nmap <silent> D <Plug>(coc-definition)
-" Remap keys for applying codeAction to the current line.
-nmap <silent> F <Plug>(coc-codeaction)
-" Show documentation in preview window.
-nnoremap <silent> H :call <SID>show_documentation()<CR>
-
-function! s:show_documentation()
-  if (index(['vim','help'], &filetype) >= 0)
-    execute 'h '.expand('<cword>')
-  else
-    call CocAction('doHover')
-  endif
-endfunction
-
-" Highlight the symbol and its references when holding the cursor.
-autocmd CursorHold * silent call CocActionAsync('highlight')
-
-augroup mygroup
-  autocmd!
-  " Setup formatexpr specified filetype(s).
-  autocmd FileType typescript,json setl formatexpr=CocAction('formatSelected')
-  " Update signature help on jump placeholder.
-  autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
-augroup end
-
-" Statusline support.
-let g:airline#extensions#coc#enabled = 1
-let airline#extensions#coc#error_symbol = 'ERROR:'
-"}}}
 
 " {{{ airblade/vim-gitgutter
 nmap ]h <Plug>(GitGutterNextHunk)
@@ -274,26 +193,6 @@ let g:gitgutter_sign_priority=1
 " {{{ bling/vim-airline
 let g:airline_theme='murmur'
 "}}}
-
-" {{{ fugitive.vim
-nnoremap <leader>g :Git<space>
-nnoremap <leader>gs :Git status -sb<CR>
-nnoremap <leader>gd :Git diff -w --color=always<CR>
-nnoremap <leader>gb :Git branch<CR>
-nnoremap <leader>gc :Git checkout<space>
-nnoremap <leader>gl :Git log --graph --pretty=format:'\''%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset'\'' --abbrev-commit<CR>
-" }}}
-
-" {{{ fzf
-" open file in new tab with <Enter>
-let g:fzf_action = { 'ctrl-m': 'tab split'}
-
-nnoremap <C-p> :GFiles<CR>
-" Empty value to disable preview window altogether
-let g:fzf_preview_window = ''
-" [Buffers] Jump to the existing window if possible
-let g:fzf_buffers_jump = 1
-" }}}
 
 " Use Ctrl+O in Insert mode to run one Normal mode command {{{
 

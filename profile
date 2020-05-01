@@ -90,6 +90,7 @@ alias tt="tmux -u -2 attach -t"
 alias j="jobs"
 
 # fzf
+alias ffind="find . -iname"
 alias fd="find * -type f | fzf"
 export FZF_COMPLETION_TRIGGER='*'
 # Can select multiple processes with <TAB> or <Shift-TAB> keys
@@ -100,6 +101,51 @@ alias cmakebuild="mkdir build && cd build && cmake -GNinja -DCMAKE_EXPORT_COMPIL
 alias cmakeclean="rm -r build"
 alias mak="if make -C cmake.bld/Linux >log 2>&1; then echo Succeed!; else less log; fi"
 alias makj="if make -C cmake.bld/Linux -j >log 2>&1; then echo Succeed!; else less log; fi"
+
+# cheat sheet
+bash_example(){
+    set -o xtrace # Optional, begin printing all commands
+    echo "Run $1" # first argument
+    echo "Run $@" # all arguments
+    set +o xtrace # End printing all commands
+}
+
+# short functions
+itest(){
+    #set -o xtrace
+    BIN=`find . -iname ${PWD##*/}.i.t.tsk`
+    [ -z "$2" ] && level=INFO || level=$2
+    $BIN --assert-throws-stack --show-failures-only --bael-level \
+                                                  $level --gtest_filter="*$1*"
+    #set +o xtrace
+}
+
+utest(){
+    #set -o xtrace
+    BIN=`find . -iname ${PWD##*/}.u.t.tsk`
+    [ -z "$2" ] && level=INFO || level=$2
+    $BIN --assert-throws-stack --show-failures-only --bael-level \
+                                                  $level --gtest_filter="*$1*"
+    #set +o xtrace
+}
+
+gdbtest(){
+    #set -o xtrace
+    BIN=`find . -iname ${PWD##*/}.u.t.tsk`
+    [ -z "$2" ] && level=INFO || level=$2
+    gdb --args $BIN --assert-throws-stack --show-failures-only --bael-level \
+                                                  $level --gtest_filter="*$1*"
+    #set +o xtrace
+}
+
+rmcache(){
+    set -o xtrace
+    rm -rf $refroot/refroot-${PWD##*/}
+    rm -rf $PWD/log*
+    rm -rf $PWD/cmake.bld/
+    rm -rf $PWD/compile_commands.json
+    set +o xtrace
+}
 
 export PATH=$HOME/bin:$PATH
 
