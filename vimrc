@@ -49,7 +49,6 @@ Plug 'tpope/vim-fugitive' " example: :G blame
 Plug 'tpope/vim-surround'
 " ds'  -> delete both ', cs"' -> change " to '
 
-Plug 'dense-analysis/ale'
 
 " {{{ Optional
 " Plug 'vim-scripts/DoxygenToolkit.vim' don't need at BB
@@ -61,6 +60,7 @@ Plug 'dense-analysis/ale'
 " Plug 'jiangmiao/auto-pairs'  dont use this!!!!! hard to use
 " Plug 'octol/vim-cpp-enhanced-highlight' color is not very useful
 " Plug 'itchyny/lightline.vim' " Use bling/vim-airline instead
+" Plug 'dense-analysis/ale'  too inconvenient. much worse than COC
 "
 "}}}
 
@@ -191,34 +191,6 @@ set updatetime=100
 " Prefer non-gitgutter signs, default is 10
 let g:gitgutter_sign_priority=1
 "}}}
-
-
-" {{{ale
-set signcolumn=yes
-let g:ale_completion_enabled = 1
-let g:ale_completion_delay = 100
-" Trigger completion in insert mode
-imap <C-Space> <Plug>(ale_complete)
-let g:ale_linters = {
-    \ 'cpp': ['clangd', '-background-index',],
-    \}
-
-let g:ale_echo_msg_error_str = 'E'
-let g:ale_echo_msg_warning_str = 'W'
-let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
-
-let g:ale_sign_error = 'X'
-let g:ale_sign_warning = '!'
-" show errors or warnings in status line
-let g:airline#extensions#ale#enabled = 1
-" Show type info (and short doc) of identifier under cursor
-nnoremap <space>h :ALEHover<CR>
-" Goto definition (in a new tab) under cursor.
-nnoremap <space>d :ALEGoToDefinition -tab<CR>
-nnoremap <leader>r :ALEFindReferences -relative<CR>
-" searching for workspace symbols
-nnoremap <space>f :ALEFix<CR>
-" }}}
 
 " {{{ bling/vim-airline
 let g:airline_theme='murmur'
