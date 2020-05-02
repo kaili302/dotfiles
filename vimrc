@@ -49,6 +49,7 @@ Plug 'tpope/vim-fugitive' " example: :G blame
 Plug 'tpope/vim-surround'
 " ds'  -> delete both ', cs"' -> change " to '
 
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
 " {{{ Optional
 " Plug 'vim-scripts/DoxygenToolkit.vim' don't need at BB
@@ -61,7 +62,7 @@ Plug 'tpope/vim-surround'
 " Plug 'octol/vim-cpp-enhanced-highlight' color is not very useful
 " Plug 'itchyny/lightline.vim' " Use bling/vim-airline instead
 " Plug 'dense-analysis/ale'  too inconvenient. much worse than COC
-"
+" Plug 'autozimu/LanguageClient-neovim' worse than COC
 "}}}
 
 " All of your Plugins must be added before the following line
@@ -163,30 +164,101 @@ let g:better_whitespace_enabled=1
 let g:strip_whitespace_on_save=1
 let g:strip_whitespace_confirm=0
 
+" {{ coc.nvim
+"
+":CocConfig
+"{
+	""languageserver": {
+		""clangd": {
+			""command": "clangd",
+			""rootPatterns": ["compile_flags.txt", "compile_commands.json"],
+			"// By default, clangd only knows the files you are currently editing.
+			"// To provide project-wide code navigations (e.g. find references),
+			"// clangd neesds a project-wide index. clangd will incrementally build
+			"// an index of the project in the background in {project_roote}/.cland/
+			""args": ["--background-index"],
+			""filetypes": ["c", "cpp"]
+		"}
+	"}
+"}
+
+" TextEdit might fail if hidden is not set.
+set hidden
+
+" Some servers have issues with backup files, see #649.
+set nobackup
+set nowritebackup
+
+" Give more space for displaying messages.
+set cmdheight=2
+
+" Don't pass messages to |ins-completion-menu|.
+set shortmess+=c
+
+" Always show the signcolumn, otherwise it would shift the text each time
+" diagnostics appear/become resolved.
+set signcolumn=yes
+
+" Use tab for trigger completion with characters ahead and navigate.
+inoremap <silent><expr> <TAB>
+      \ pumvisible() ? "\<C-n>" :
+      \ <SID>check_back_space() ? "\<TAB>" :
+      \ coc#refresh()
+inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+
+" Use <cr> to confirm completion, `<C-g>u` means break undo chain at current
+" position. Coc only does snippet and additional edit on confirm.
+if exists('*complete_info')
+  inoremap <expr> <cr> complete_info()["selected"] != "-1" ? "\<C-y>" : "\<C-g>u\<CR>"
+else
+  imap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+endif
+
+" GoTo code navigation.
+nmap <silent> cd <Plug>(coc-declaration)
+nmap <silent> cD <Plug>(coc-definition)
+nmap <silent> cf <Plug>(coc-fix-current)
+nmap <silent> cF <Plug>(coc-codeaction)
+nmap <silent> ci <Plug>(coc-implementation)
+nmap <silent> cr <Plug>(coc-references)
+nmap <silent> cR <Plug>(coc-refactor)
+nmap <silent> cn <Plug>(coc-diagnostic-next-error)
+nmap <silent> cN <Plug>(coc-diagnostic-prev-error)
+nnoremap <silent> cH :call CocAction('doHover')<CR>
+nnoremap <silent> ch :call CocAction('showSignatureHelp')<CR>
+
+" Highlight the symbol and its references when holding the cursor.
+autocmd CursorHold * silent call CocActionAsync('highlight')
+
+augroup mygroup
+  autocmd!
+  " Setup formatexpr specified filetype(s).
+  autocmd FileType typescript,json setl formatexpr=CocAction('formatSelected')
+  " Update signature help on jump placeholder.
+  autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
+augroup end
+
+" Statusline support.
+let g:airline#extensions#coc#enabled = 1
+let airline#extensions#coc#error_symbol = 'E:'
+"}}}
+
 " {{{ airblade/vim-gitgutter
-nmap ]h <Plug>(GitGutterNextHunk)
-nmap [h <Plug>(GitGutterPrevHunk)
+nmap hn <Plug>(GitGutterNextHunk)
+nmap hN <Plug>(GitGutterPrevHunk)
 " Toggle Highlighting
-nnoremap <leader>h :GitGutterLineHighlightsToggle<CR>
+nnoremap hh :GitGutterLineHighlightsToggle<CR>
 " command to fold all unchanged lines, leaving just the hunks visible
-nnoremap <leader>hf :GitGutterFold<CR>
+nnoremap hf :GitGutterFold<CR>
 "Call the GitGutterGetHunkSummary() function from your status line to get a
 "list of counts of added, modified, and removed lines in the current buffer.
 
-" stage the hunk with <Leader>hs
-" undo a hunk with <Leader>hu.
-" To stage part of any hunk:
-"   - preview the hunk, e.g. <Leader>hp;
-"   - move to the preview window
-"   - delete the lines you do not want to stage
-"   - stage the remaining lines: either write (:w) or <leader>hs
-"
-"When you make a change to a file tracked by git, the diff markers should
-"appear automatically. The delay is governed by vim's updatetime option the
-"default value is 4000, i.e. 4 seconds, but I suggest reducing it to around
-"100ms (add set updatetime=100 to your vimrc). Note updatetime also controls
-"the delay before vim writes its swap file (see :help updatetime).
-set updatetime=100
+set updatetime=10
 
 " Prefer non-gitgutter signs, default is 10
 let g:gitgutter_sign_priority=1
