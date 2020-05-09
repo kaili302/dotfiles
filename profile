@@ -101,6 +101,7 @@ alias cmakebuild="mkdir build && cd build && cmake -GNinja -DCMAKE_EXPORT_COMPIL
 alias cmakeclean="rm -r build"
 alias mak="if make -C cmake.bld/Linux >log 2>&1; then echo Succeed!; else less log; fi"
 alias makj="if make -C cmake.bld/Linux -j >log 2>&1; then echo Succeed!; else less log; fi"
+alias ninj="ninja -C cmake.bld/Linux -j 100"
 
 # cheat sheet
 bash_example(){

@@ -49,7 +49,7 @@ Plug 'tpope/vim-fugitive' " example: :G blame
 Plug 'tpope/vim-surround'
 " ds'  -> delete both ', cs"' -> change " to '
 
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'valloric/youcompleteme'
 
 " {{{ Optional
 " Plug 'vim-scripts/DoxygenToolkit.vim' don't need at BB
@@ -164,84 +164,64 @@ let g:better_whitespace_enabled=1
 let g:strip_whitespace_on_save=1
 let g:strip_whitespace_confirm=0
 
-" {{ coc.nvim
-"
-":CocConfig
-"{
-	""languageserver": {
-		""clangd": {
-			""command": "clangd",
-			""rootPatterns": ["compile_flags.txt", "compile_commands.json"],
-			"// By default, clangd only knows the files you are currently editing.
-			"// To provide project-wide code navigations (e.g. find references),
-			"// clangd neesds a project-wide index. clangd will incrementally build
-			"// an index of the project in the background in {project_roote}/.cland/
-			""args": ["--background-index"],
-			""filetypes": ["c", "cpp"]
-		"}
-	"}
-"}
+"" GoTo code navigation.
+"nmap <silent> cd <Plug>(coc-declaration)
+"nmap <silent> cD <Plug>(coc-definition)
+"nmap <silent> cf <Plug>(coc-fix-current)
+"nmap <silent> cF <Plug>(coc-codeaction)
+"nmap <silent> ci <Plug>(coc-implementation) " not for C family
+"nmap <silent> cr <Plug>(coc-references)
+"nmap <silent> cR <Plug>(coc-refactor)
+"nmap <silent> cn <Plug>(coc-diagnostic-next-error)
+"nmap <silent> cN <Plug>(coc-diagnostic-prev-error)
+"nnoremap <silent> cH :call CocAction('doHover')<CR>
+"nnoremap <silent> ch :call CocAction('showSignatureHelp')<CR>
 
-" TextEdit might fail if hidden is not set.
-set hidden
+" {{{ YCM
+" Language-server related configuration
+let g:ycm_clangd_uses_ycmd_caching = 0
+let g:ycm_clangd_binary_path = "/home/kli302/bin/clangd"
+" clangd bug: Background-index cannot be enabled when "compile-commands-dir" is not specified.
+let g:ycm_clangd_args = ['--log=error', '--compile-commands-dir=.', '--background-index', '--suggest-missing-includes', '--pretty', '-j=100', '--pch-storage=memory', '--completion-style=detailed', '--clang-tidy']
 
-" Some servers have issues with backup files, see #649.
-set nobackup
-set nowritebackup
-
-" Give more space for displaying messages.
-set cmdheight=2
-
-" Don't pass messages to |ins-completion-menu|.
-set shortmess+=c
-
-" Always show the signcolumn, otherwise it would shift the text each time
-" diagnostics appear/become resolved.
-set signcolumn=yes
-
-" Use tab for trigger completion with characters ahead and navigate.
-inoremap <silent><expr> <TAB>
-      \ pumvisible() ? "\<C-n>" :
-      \ <SID>check_back_space() ? "\<TAB>" :
-      \ coc#refresh()
-inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
-
-function! s:check_back_space() abort
-  let col = col('.') - 1
-  return !col || getline('.')[col - 1]  =~# '\s'
-endfunction
-
-" Use <cr> to confirm completion, `<C-g>u` means break undo chain at current
-" position. Coc only does snippet and additional edit on confirm.
-if exists('*complete_info')
-  inoremap <expr> <cr> complete_info()["selected"] != "-1" ? "\<C-y>" : "\<C-g>u\<CR>"
-else
-  imap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
-endif
-
-" GoTo code navigation.
-nmap <silent> cd <Plug>(coc-declaration)
-nmap <silent> cD <Plug>(coc-definition)
-nmap <silent> cf <Plug>(coc-fix-current)
-nmap <silent> cF <Plug>(coc-codeaction)
-nmap <silent> ci <Plug>(coc-implementation)
-nmap <silent> cr <Plug>(coc-references)
-nmap <silent> cR <Plug>(coc-refactor)
-nmap <silent> cn <Plug>(coc-diagnostic-next-error)
-nmap <silent> cN <Plug>(coc-diagnostic-prev-error)
-nnoremap <silent> cH :call CocAction('doHover')<CR>
-nnoremap <silent> ch :call CocAction('showSignatureHelp')<CR>
-
-" Highlight the symbol and its references when holding the cursor.
-autocmd CursorHold * silent call CocActionAsync('highlight')
-
-augroup mygroup
+" Auto-Completion
+let g:ycm_filetype_whitelist = {'cpp': 1}
+"let g:ycm_semantic_triggers =  {
+  "\   'c': ['->', '.'],
+  "\   'cpp': ['->', '.', '::'],
+  "\ }
+let g:ycm_complete_in_comments = 1
+let g:ycm_complete_in_strings = 1
+nnoremap <silent> cd :YcmCompleter GoToDeclaration<CR>
+nnoremap <silent> cD :YcmCompleter GoToDefinition<CR>
+nnoremap <silent> cf :YcmCompleter FixIt<CR>
+nnoremap <silent> cr :YcmCompleter GoToReferences<CR>
+nnoremap <silent> cR :YcmCompleter RefactorRename<space>
+nmap <silent> ch <plug>(YCMHover)
+let g:ycm_auto_hover = ""
+	" Vim is super slow if set to 'CursorHold', show popup on holding cursor
+augroup MyYCMCustom
+    " Hover syntax highlighting for C family
   autocmd!
-  " Setup formatexpr specified filetype(s).
-  autocmd FileType typescript,json setl formatexpr=CocAction('formatSelected')
-  " Update signature help on jump placeholder.
-  autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
-augroup end
+  autocmd FileType c,cpp let b:ycm_hover = {
+    \ 'command': 'GetDoc',
+    \ 'syntax': &filetype
+    \ }
+augroup END
+
+" UI Related
+set signcolumn=yes
+let g:ycm_error_symbol = 'E'
+let g:ycm_warning_symbol = 'W'
+let g:ycm_goto_buffer_command = 'new-or-existing-tab'
+	" Defines where GoTo* commands result should be opened.
+set completeopt-=preview
+    " Do not open preview window on auto-complete
+
+" YCM configuration
+let g:ycm_log_level = 'error'
+
+" }}}
 
 " Statusline support.
 let g:airline#extensions#coc#enabled = 1
