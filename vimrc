@@ -79,6 +79,9 @@ set number
 set cul!
 set encoding=utf-8
 set spell spelllang=en_us
+map <C-f> <Nop>
+nnoremap q: <nop>
+nnoremap Q <nop>
 
 " Clear highlighting on escape in normal mode
 nnoremap <esc> :noh<return><esc>
