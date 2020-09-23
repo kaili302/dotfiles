@@ -37,8 +37,6 @@ Plug 'ntpeters/vim-better-whitespace'
 
 Plug 'vim-scripts/a.vim'
 
-Plug 'airblade/vim-gitgutter'
-
 Plug 'kien/ctrlp.vim'
 
 " Install for Linux
@@ -48,6 +46,8 @@ Plug 'tpope/vim-fugitive' " example: :G blame
 
 Plug 'tpope/vim-surround'
 " ds'  -> delete both ', cs"' -> change " to '
+
+Plug 'airblade/vim-gitgutter'
 
 Plug 'valloric/youcompleteme'
 
@@ -79,10 +79,11 @@ set number
 set cul!
 set encoding=utf-8
 set spell spelllang=en_us
+" {{{ disable command historical view
 map <C-f> <Nop>
 nnoremap q: <nop>
 nnoremap Q <nop>
-
+" }}}
 " Clear highlighting on escape in normal mode
 nnoremap <esc> :noh<return><esc>
 nnoremap <esc>^[ <esc>^[
@@ -102,9 +103,17 @@ set smartindent             " smart indent
 set backspace=indent,eol,start " make the backspace work nicely
 " }}}
 
+" {{{ NerdCommenter
+nnoremap <C-_> :call NERDComment(0,"toggle")<CR>
+    " For some reason, vim registers <C-/> as <C-_>
+vnoremap <C-_> :call NERDComment(0,"toggle")<CR>
+" }}}
+
 " Paste mode and Number mode {{{
 nnoremap <leader>p :set paste<CR>
 nnoremap <leader>np :set nopaste<CR>
+"nnoremap <leader>n :set number scl=auto<CR>
+"nnoremap <leader>nn :set nonumber scl=no<CR>
 nnoremap <leader>n :set number<CR>
 nnoremap <leader>nn :set nonumber<CR>
 " }}}
@@ -158,7 +167,8 @@ autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in
 " }}}
 
 " ag + ack.vim {{{
-let g:ackprg = 'ag --nogroup --nocolor --column'
+"let g:ackprg = 'ag --nogroup --nocolor --column --ignore changelog'
+let g:ackprg = 'ag --nogroup --column --ignore changelog'
 nnoremap <leader>s :Ack<space>
 " }}}
 
@@ -185,21 +195,22 @@ let g:strip_whitespace_confirm=0
 let g:ycm_clangd_uses_ycmd_caching = 0
 let g:ycm_clangd_binary_path = "/home/kli302/bin/clangd"
 " clangd bug: Background-index cannot be enabled when "compile-commands-dir" is not specified.
-let g:ycm_clangd_args = ['--log=error', '--compile-commands-dir=.', '--background-index', '--suggest-missing-includes', '--pretty', '-j=100', '--pch-storage=memory', '--completion-style=detailed', '--clang-tidy']
+let g:ycm_clangd_args = ['--log=error', '--compile-commands-dir=.', '--background-index', '--pretty', '-j=50', '--pch-storage=memory', '--completion-style=detailed', '--clang-tidy']
 
 " Auto-Completion
 let g:ycm_filetype_whitelist = {'cpp': 1}
-"let g:ycm_semantic_triggers =  {
-  "\   'c': ['->', '.'],
-  "\   'cpp': ['->', '.', '::'],
-  "\ }
+let g:ycm_semantic_triggers =  {
+  \   'c': ['->', '.'],
+  \   'cpp': ['->', '.', '::'],
+  \ }
 let g:ycm_complete_in_comments = 1
 let g:ycm_complete_in_strings = 1
 nnoremap <silent> cd :YcmCompleter GoToDeclaration<CR>
 nnoremap <silent> cD :YcmCompleter GoToDefinition<CR>
 nnoremap <silent> cf :YcmCompleter FixIt<CR>
 nnoremap <silent> cr :YcmCompleter GoToReferences<CR>
-nnoremap <silent> cR :YcmCompleter RefactorRename<space>
+nnoremap cR :YcmCompleter RefactorRename<space>
+    " can not be silient, otherwise, vim command line ':' is hidden
 nmap <silent> ch <plug>(YCMHover)
 let g:ycm_auto_hover = ""
 	" Vim is super slow if set to 'CursorHold', show popup on holding cursor
@@ -214,8 +225,6 @@ augroup END
 
 " UI Related
 set signcolumn=yes
-let g:ycm_error_symbol = 'E'
-let g:ycm_warning_symbol = 'W'
 let g:ycm_goto_buffer_command = 'new-or-existing-tab'
 	" Defines where GoTo* commands result should be opened.
 set completeopt-=preview
@@ -229,26 +238,6 @@ let g:ycm_log_level = 'error'
 " Statusline support.
 let g:airline#extensions#coc#enabled = 1
 let airline#extensions#coc#error_symbol = 'E:'
-"}}}
-
-" {{{ airblade/vim-gitgutter
-nmap hn <Plug>(GitGutterNextHunk)
-nmap hN <Plug>(GitGutterPrevHunk)
-" Toggle Highlighting
-nnoremap hh :GitGutterLineHighlightsToggle<CR>
-" command to fold all unchanged lines, leaving just the hunks visible
-nnoremap hf :GitGutterFold<CR>
-"Call the GitGutterGetHunkSummary() function from your status line to get a
-"list of counts of added, modified, and removed lines in the current buffer.
-
-set updatetime=10
-
-" Prefer non-gitgutter signs, default is 10
-let g:gitgutter_sign_priority=1
-"}}}
-
-" {{{ bling/vim-airline
-let g:airline_theme='murmur'
 "}}}
 
 " Use Ctrl+O in Insert mode to run one Normal mode command {{{
@@ -272,6 +261,11 @@ function! ExecuteMacroOverVisualRange()
   echo "@".getcmdline()
   execute ":'<,'>normal @".nr2char(getchar())
 endfunction
+
+" {{{ bling/vim-airline
+let g:airline_theme='murmur'
+"}}}
+
 
 """ Help Documents {{{
 

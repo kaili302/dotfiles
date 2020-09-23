@@ -90,8 +90,9 @@ alias tt="tmux -u -2 attach -t"
 alias j="jobs"
 
 # fzf
-alias ffind="find . -iname"
-alias fd="find * -type f | fzf"
+# Do not search hidden file and repos
+alias ffind="find . -not -path '*/\.*' -type f -iname"
+alias fd="ffind * | fzf"
 export FZF_COMPLETION_TRIGGER='*'
 # Can select multiple processes with <TAB> or <Shift-TAB> keys
 # kill -9 <TAB>
@@ -114,7 +115,7 @@ bash_example(){
 # short functions
 itest(){
     #set -o xtrace
-    BIN=`find . -iname ${PWD##*/}.i.t.tsk`
+    BIN=`ffind ${PWD##*/}.i.t.tsk`
     [ -z "$2" ] && level=INFO || level=$2
     $BIN --assert-throws-stack --show-failures-only --bael-level \
                                                   $level --gtest_filter="*$1*"
@@ -123,7 +124,7 @@ itest(){
 
 utest(){
     #set -o xtrace
-    BIN=`find . -iname ${PWD##*/}.u.t.tsk`
+    BIN=`ffind ${PWD##*/}.u.t.tsk`
     [ -z "$2" ] && level=INFO || level=$2
     $BIN --assert-throws-stack --show-failures-only --bael-level \
                                                   $level --gtest_filter="*$1*"
@@ -132,7 +133,7 @@ utest(){
 
 gdbtest(){
     #set -o xtrace
-    BIN=`find . -iname ${PWD##*/}.u.t.tsk`
+    BIN=`ffind ${PWD##*/}.u.t.tsk`
     [ -z "$2" ] && level=INFO || level=$2
     gdb --args $BIN --assert-throws-stack --show-failures-only --bael-level \
                                                   $level --gtest_filter="*$1*"
@@ -148,6 +149,12 @@ rmcache(){
     set +o xtrace
 }
 
+rmcacheall(){
+    set -o xtrace
+    rm -rf $refroot/refroot-*
+    set +o xtrace
+}
+
 export PATH=$HOME/bin:$PATH
 
 # other configurations
@@ -160,3 +167,11 @@ fi
 if ! ps $$|grep -q "zsh";then
     zsh
 fi
+
+alias kgrep="grep -r -I" # -I do not match binary
+
+ksed(){
+    set -o xtrace
+    grep '--exclude-dir=cmake.bld' -rl "$1" | xargs sed -i "s/$1/$2/"
+    set +o xtrace
+}
