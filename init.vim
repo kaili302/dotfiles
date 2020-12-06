@@ -1,20 +1,10 @@
 " Never put any lines in .vimrc that you don't understand.
 " https://dougblack.io/words/a-good-vimrc.html
 "
-" git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
-"
-" {{{ install vim-plug if not yet
-"if empty(glob('~/.vim/autoload/plug.vim'))
-  "silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
-    "\ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-  "autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
-"endif
-" }}}
+" sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs \
+"       https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
 
-call plug#begin('~/.vim/bundle')
-
-Plug 'junegunn/vim-plug'
-
+call plug#begin('~/.config/nvim/bundle')
 Plug 'scrooloose/nerdtree'
 
 Plug 'jistr/vim-nerdtree-tabs'
@@ -33,37 +23,11 @@ Plug 'joshdick/onedark.vim'
 
 Plug 'christoomey/vim-tmux-navigator'
 
-Plug 'ntpeters/vim-better-whitespace'
-
-Plug 'vim-scripts/a.vim'
+Plug 'ntpeters/vim-better-whitespace' " Show trailing whitespace in red
 
 Plug 'kien/ctrlp.vim'
 
-" Install for Linux
-Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-
-Plug 'tpope/vim-fugitive' " example: :G blame
-
-Plug 'tpope/vim-surround'
-" ds'  -> delete both ', cs"' -> change " to '
-
-Plug 'airblade/vim-gitgutter'
-
 Plug 'davidhalter/jedi-vim'
-
-" {{{ Optional
-" Plug 'vim-scripts/DoxygenToolkit.vim' don't need at BB
-" }}}
-
-" {{{ plugins black list
-" Plug 'junegunn/fzf.vim'  " CtrlP is easier to use
-" Plug 'terryma/vim-multiple-cursors' " dont use this!!!!! hard to use
-" Plug 'jiangmiao/auto-pairs'  dont use this!!!!! hard to use
-" Plug 'octol/vim-cpp-enhanced-highlight' color is not very useful
-" Plug 'itchyny/lightline.vim' " Use bling/vim-airline instead
-" Plug 'dense-analysis/ale'  too inconvenient. much worse than COC
-" Plug 'autozimu/LanguageClient-neovim' worse than COC
-"}}}
 
 " All of your Plugins must be added before the following line
 call plug#end()
@@ -79,12 +43,28 @@ set number
 set cul!
 set encoding=utf-8
 set spell spelllang=en_us
-" {{{ disable command historical view
+set ruler
+set showmatch
+set hlsearch
+set ttyfast
+set synmaxcol=128
+syntax sync minlines=256
+set ignorecase
+set smartcase
+set colorcolumn=79
+set cinoptions+=g2,h2
+colorscheme onedark
+" Syntax Highlighting with JSONC
+autocmd FileType json syntax match Comment +\/\/.\+$+
+" }}}
+
+" disable command historical view {{{
 map <C-f> <Nop>
 nnoremap q: <nop>
 nnoremap Q <nop>
 " }}}
-" Clear highlighting on escape in normal mode
+
+" Clear highlighting on escape in normal mode {{{
 nnoremap <esc> :noh<return><esc>
 nnoremap <esc>^[ <esc>^[
 " }}}
@@ -103,45 +83,25 @@ set smartindent             " smart indent
 set backspace=indent,eol,start " make the backspace work nicely
 " }}}
 
+" Paste mode and Number mode {{{
+nnoremap <leader>p :set paste<CR>
+nnoremap <leader>np :set nopaste<CR>
+"nnoremap <leader>n :set number scl=auto<CR>
+"nnoremap <leader>nn :set nonumber scl=no<CR>
+nnoremap <leader>n :set number<CR>
+nnoremap <leader>nn :set nonumber<CR>
+" }}}
+
+" search from current line
+nnoremap <leader>c :.,$s///gc
+
+
 " {{{ NerdCommenter
 nnoremap <C-_> :call NERDComment(0,"toggle")<CR>
     " For some reason, vim registers <C-/> as <C-_>
 vnoremap <C-_> :call NERDComment(0,"toggle")<CR>
 " }}}
 
-" Paste mode and Number mode {{{
-nnoremap <leader>p :set paste<CR>
-nnoremap <leader>np :set nopaste<CR>
-nnoremap <leader>n :set number<CR>
-nnoremap <leader>nn :set nonumber<CR>
-" }}}
-
-set ruler
-set showmatch
-" Uncomment below to make screen not flash on error
-" set vb t_vb=""
-
-set hlsearch
-
-set ttyfast
-
-set synmaxcol=128
-syntax sync minlines=256
-
-set ignorecase
-set smartcase
-
-" search from current line
-nnoremap <leader>c :.,$s///gc
-
-set colorcolumn=79
-
-set cinoptions+=g2,h2
-
-" Syntax Highlighting with JSONC
-autocmd FileType json syntax match Comment +\/\/.\+$+
-
-colorscheme onedark
 
 " CtrlP{{{
 nnoremap <leader>cp :CtrlP<CR>
@@ -188,6 +148,11 @@ let g:strip_whitespace_confirm=0
 "nnoremap <silent> cH :call CocAction('doHover')<CR>
 "nnoremap <silent> ch :call CocAction('showSignatureHelp')<CR>
 
+
+" Statusline support.
+let g:airline#extensions#coc#enabled = 1
+let airline#extensions#coc#error_symbol = 'E:'
+"}}}
 
 " Use Ctrl+O in Insert mode to run one Normal mode command {{{
 
