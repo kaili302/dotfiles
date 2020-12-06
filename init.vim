@@ -5,6 +5,9 @@
 "       https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
 
 call plug#begin('~/.config/nvim/bundle')
+
+" reload config: so $MYVIMRC
+
 Plug 'scrooloose/nerdtree'
 
 Plug 'jistr/vim-nerdtree-tabs'
@@ -27,7 +30,7 @@ Plug 'ntpeters/vim-better-whitespace' " Show trailing whitespace in red
 
 Plug 'kien/ctrlp.vim'
 
-Plug 'davidhalter/jedi-vim'
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
 " All of your Plugins must be added before the following line
 call plug#end()
@@ -93,7 +96,7 @@ nnoremap <leader>nn :set nonumber<CR>
 " }}}
 
 " search from current line
-nnoremap <leader>c :.,$s///gc
+nnoremap <leader>l :.,$s///gc
 
 
 " {{{ NerdCommenter
@@ -104,8 +107,7 @@ vnoremap <C-_> :call NERDComment(0,"toggle")<CR>
 
 
 " CtrlP{{{
-nnoremap <leader>cp :CtrlP<CR>
-set wildignore+=*/tmp/*,*/cmake.bld/*,*/CMakeFiles/*,*.so,*.swp,*.zip
+set wildignore+=*/tmp/*,*/cmake.bld/*,*/CMakeFiles/*,*.so,*.swp,*.zip,.git/*
 "ctrlp open in new tab"
 let g:ctrlp_prompt_mappings = {
     \ 'AcceptSelection("e")': ['<2-LeftMouse>'],
@@ -135,19 +137,81 @@ let g:better_whitespace_enabled=1
 let g:strip_whitespace_on_save=1
 let g:strip_whitespace_confirm=0
 
-"" GoTo code navigation.
-"nmap <silent> cd <Plug>(coc-declaration)
-"nmap <silent> cD <Plug>(coc-definition)
-"nmap <silent> cf <Plug>(coc-fix-current)
-"nmap <silent> cF <Plug>(coc-codeaction)
-"nmap <silent> ci <Plug>(coc-implementation) " not for C family
-"nmap <silent> cr <Plug>(coc-references)
-"nmap <silent> cR <Plug>(coc-refactor)
-"nmap <silent> cn <Plug>(coc-diagnostic-next-error)
-"nmap <silent> cN <Plug>(coc-diagnostic-prev-error)
-"nnoremap <silent> cH :call CocAction('doHover')<CR>
-"nnoremap <silent> ch :call CocAction('showSignatureHelp')<CR>
 
+" CoC Plugins {{{
+"" Install Plugins if not exist
+let g:coc_global_extensions = ['coc-json', 'coc-git', 'coc-pyright', 'coc-cmake',
+        \ 'coc-html', 'coc-json', 'coc-sql', 'coc-clangd']
+
+map <leader>cp :CocList commands<CR>
+map <leader>ce :CocList extensions<CR>
+"? means invalid extension
+"* means extension is activated
+"+ means extension is loaded
+"- means extension is disabled
+"hit <Tab> to activate action menu
+" }}}
+
+" CoC Display {{{
+set hidden " TextEdit might fail if hidden is not set.
+set nobackup
+set nowritebackup " Some servers have issues with backup files, see #649.
+set cmdheight=2 " Give more space for displaying messages.
+set updatetime=300 " Having longer updatetime (default is 4 s) leads to noticeable delays and poor user experience.
+set shortmess+=c " Don't pass messages to |ins-completion-menu|.
+if has("patch-8.1.1564") " Always show the signcolumn, otherwise it shifts the text each timediagnostics appear/become resolved.
+  set signcolumn=number " Recently vim can merge signcolumn and number column into one
+else
+  set signcolumn=yes
+endif
+" }}}
+
+
+" CoC auto-completion {{{
+" Use <c-space> to trigger completion.
+inoremap <silent><expr> <c-space> coc#refresh()
+" make <cr> select the first completion item and confirm the completion when no item has been selected
+inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm() : "\<C-g>u\<CR>"
+" Use <cr> to confirm completion
+"inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+" Use <cr> to confirm completion and format your code on <cr>
+inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm() : "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+" Use tab for trigger completion with characters ahead and navigate.
+inoremap <silent><expr> <TAB>
+      \ pumvisible() ? "\<C-n>" :
+      \ <SID>check_back_space() ? "\<TAB>" :
+      \ coc#refresh()
+inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+" Use <Tab> and <S-Tab> to navigate the completion list
+inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+
+
+" CoC Shortcuts {{{
+nmap <silent> cd <Plug>(coc-declaration)
+nmap <silent> cD <Plug>(coc-definition)
+nmap <silent> cf <Plug>(coc-fix-current)
+nmap <silent> cF <Plug>(coc-codeaction)
+nmap <silent> ci <Plug>(coc-implementation) " not for C family
+nmap <silent> cr <Plug>(coc-references)
+nmap <silent> cR <Plug>(coc-refactor)
+nmap <silent> cn <Plug>(coc-diagnostic-next-error)
+nmap <silent> cN <Plug>(coc-diagnostic-prev-error)
+nnoremap <silent> cH :call <SID>show_documentation()<CR>
+nnoremap <silent> ch :call <SID>show_documentation()<CR>
+function! s:show_documentation()
+  if (index(['vim','help'], &filetype) >= 0)
+    execute 'h '.expand('<cword>')
+  elseif (coc#rpc#ready())
+    call CocActionAsync('doHover')
+  else
+    execute '!' . &keywordprg . " " . expand('<cword>')
+  endif
+endfunction
 
 " Statusline support.
 let g:airline#extensions#coc#enabled = 1
@@ -181,6 +245,7 @@ let g:airline_theme='murmur'
 "}}}
 
 
+
 """ Help Documents {{{
 
 " Key mapping {
@@ -201,5 +266,11 @@ let g:airline_theme='murmur'
 " <End>          End
 " <bar>          the '|' character, which otherwise needs to be escaped '\|'
 " } End Key mapping
+
+"How to override shortcuts:
+"The plugins are sourced after the vimrc is done.
+"If you want to keep your overrides in your vimrc instead of being overriden
+"after by a plugin, you can use this "trick" anywhere in your vimrc file:
+"autocmd VimEnter * noremap <leader>cc echo "my purpose"
 
 " }}}

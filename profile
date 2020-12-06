@@ -8,7 +8,8 @@ echo "source $HOME/.profile"
 set -o emacs    # emacs style command line mode (default)
 
 # default editor
-export EDITOR="nvim"
+alias vim="nvim"
+
 
 stty sane # should normalize backspace issues
 stty -ixon # prevent ctrl-s freeze terminal
@@ -91,6 +92,11 @@ alias tls="tmux -u -2 ls"
 alias tt="tmux -u -2 attach -t"
 
 alias j="jobs"
+
+# Python
+# For python development, always use venv
+alias venv-activate="source ~/.venv/bin/activate"
+
 
 # fzf
 # Do not search hidden file and repos
