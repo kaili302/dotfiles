@@ -7,10 +7,6 @@ echo "source $HOME/.profile"
 # commandline editing
 set -o emacs    # emacs style command line mode (default)
 
-# default editor
-alias vim="nvim"
-
-
 stty sane # should normalize backspace issues
 stty -ixon # prevent ctrl-s freeze terminal
 

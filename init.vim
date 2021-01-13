@@ -28,6 +28,8 @@ Plug 'christoomey/vim-tmux-navigator'
 
 Plug 'ntpeters/vim-better-whitespace' " Show trailing whitespace in red
 
+Plug 'vim-scripts/a.vim' " Open cpp file with :V and :AV
+
 Plug 'kien/ctrlp.vim'
 
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
