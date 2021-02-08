@@ -143,7 +143,7 @@ colorscheme onedark
 
 " CtrlP{{{
 nnoremap <leader>cp :CtrlP<CR>
-set wildignore+=*/tmp/*,*/cmake.bld/*,*/CMakeFiles/*,*.so,*.swp,*.zip
+set wildignore+=*/tmp/*,*/cmake.bld/*,*/cmake-*,*/CMakeFiles/*,*.so,*.swp,*.zip
 "ctrlp open in new tab"
 let g:ctrlp_prompt_mappings = {
     \ 'AcceptSelection("e")': ['<2-LeftMouse>'],
@@ -154,7 +154,7 @@ let g:ctrlp_prompt_mappings = {
 " NerdTree {{{
 let g:NERDTreeDirArrowExpandable = '+'
 let g:NERDTreeDirArrowCollapsible = '~'
-let NERDTreeIgnore = ['\.pyc$']
+let NERDTreeIgnore = ['\.pyc$', '\.o$', '\.d$']
 map<C-n> :NERDTreeTabsToggle<CR>
 autocmd StdinReadPre * let s:std_in=1
 autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
@@ -177,7 +177,7 @@ let g:strip_whitespace_confirm=0
 
 " CoC Plugins {{{
 "" Install Plugins if not exist
-let g:coc_global_extensions = ['coc-json', 'coc-git', 'coc-jedi', 'coc-cmake',
+let g:coc_global_extensions = ['coc-json', 'coc-git', 'coc-pyright', 'coc-cmake',
         \ 'coc-html', 'coc-json', 'coc-sql', 'coc-clangd']
 
 map <leader>cp :CocList commands<CR>

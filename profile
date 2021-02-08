@@ -37,6 +37,7 @@ alias lu="ls -U"
 
 # git alias
 alias gs='git status -sb'
+alias gbk='git commit -am bk'
 alias gd='git diff -w --color=always'
 alias gb='git branch'
 alias gc='git checkout'
