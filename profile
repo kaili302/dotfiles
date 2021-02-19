@@ -93,6 +93,7 @@ alias j="jobs"
 # Python
 # For python development, always use venv
 alias venv-activate="source ~/.venv/bin/activate"
+alias pretty-json="python -m json.tool"
 
 
 # fzf
