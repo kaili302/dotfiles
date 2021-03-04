@@ -41,6 +41,8 @@ Plug 'kien/ctrlp.vim'
 
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
+Plug 'elzr/vim-json'
+
 " Install for Linux
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 
@@ -281,6 +283,15 @@ endfunction
 let g:airline_theme='murmur'
 "}}}
 
+
+" {{{ vim Json
+" zc (close), zo (open), and za (toggle)
+" zC, zO and zA are similar, but operate on all folding levels
+" Use zR to open all folds.
+" Use zM to close all folds.
+set foldmethod=syntax
+let g:vim_json_syntax_conceal = 0
+" }}}
 
 
 
