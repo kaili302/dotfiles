@@ -289,10 +289,9 @@ let g:airline_theme='murmur'
 " zC, zO and zA are similar, but operate on all folding levels
 " Use zR to open all folds.
 " Use zM to close all folds.
-set foldmethod=syntax
+set foldmethod=manual
 let g:vim_json_syntax_conceal = 0
 " }}}
-
 
 
 """ Help Documents {{{
