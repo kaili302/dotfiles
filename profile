@@ -31,8 +31,9 @@ export GTEST_COLOR=yes
 # Aliasing
 
 #ls is quite a long command
-alias ll='ls -li'
-alias la='ls -lai'
+alias ls='ls -h'
+alias ll='ls -lih'
+alias la='ls -laih'
 alias lu="ls -U"
 
 # git alias
