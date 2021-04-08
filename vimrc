@@ -97,7 +97,7 @@ set shiftwidth=4            " an indent is 4 spaces
 set shiftround              " round to nearest multiple of shiftwidth
 filetype indent on
 filetype plugin on
-fileformat=unix
+set fileformat=unix
 set autoindent              " auto indent
 set smartindent             " smart indent
 
