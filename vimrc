@@ -4,11 +4,11 @@
 " git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
 "
 " {{{ install vim-plug if not yet
-"if empty(glob('~/.vim/autoload/plug.vim'))
-  "silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
-    "\ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-  "autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
-"endif
+if empty(glob('~/.vim/autoload/plug.vim'))
+  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+endif
 " }}}
 
 call plug#begin('~/.vim/bundle')
