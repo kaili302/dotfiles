@@ -180,8 +180,9 @@ let g:strip_whitespace_confirm=0
 
 " CoC Plugins {{{
 "" Install Plugins if not exist
-let g:coc_global_extensions = ['coc-json', 'coc-git', 'coc-pyright', 'coc-cmake',
+let g:coc_global_extensions = ['coc-json', 'coc-pyright', 'coc-cmake',
         \ 'coc-html', 'coc-json', 'coc-sql', 'coc-clangd']
+" never use coc-git, gutter display is bad
 
 map <leader>cp :CocList commands<CR>
 map <leader>ce :CocList extensions<CR>
