@@ -122,6 +122,13 @@ bash_example(){
     set +o xtrace # End printing all commands
 }
 
+sort_words(){
+    set -o xtrace # Optional, begin printing all commands
+    echo "$1" | tr " " "\n" | sort | tr "\n" " " ;echo
+    set +o xtrace # End printing all commands
+}
+
+
 # short functions
 itest(){
     #set -o xtrace
