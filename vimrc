@@ -167,7 +167,7 @@ autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in
 
 " ag + ack.vim {{{
 "let g:ackprg = 'ag --nogroup --nocolor --column --ignore changelog'
-let g:ackprg = 'ag --nogroup --column --ignore changelog'
+let g:ackprg = 'ag --nogroup --column --ignore changelog --ignore-dir venv'
 nnoremap <leader>s :Ack<space>
 " }}}
 
