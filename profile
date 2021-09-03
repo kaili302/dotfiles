@@ -20,10 +20,12 @@ shopt -s histappend
 HISTCONTROL=ignoredups
 PROMPT_COMMAND="history -a; $PROMPT_COMMAND"
 
-# Auto-complete
-bind 'set show-all-if-ambiguous on'
-bind 'TAB:menu-complete'
-bind '"\e[Z":menu-complete-backward'
+# BASH Auto-complete
+if [ -n "$BASH" ] ;then
+    bind 'set show-all-if-ambiguous on'
+    bind 'TAB:menu-complete'
+    bind '"\e[Z":menu-complete-backward'
+fi
 
 # set timezone to london
 #export TZ="Europe/London"

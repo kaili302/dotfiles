@@ -2,8 +2,6 @@
 " Never put any lines in .vimrc that you don't understand.
 " https://dougblack.io/words/a-good-vimrc.html
 "
-" git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
-"
 " {{{ install vim-plug if not yet
 if empty(glob('~/.vim/autoload/plug.vim'))
   silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
@@ -16,7 +14,7 @@ call plug#begin('~/.vim/bundle')
 
 Plug 'junegunn/vim-plug'
 
-Plug 'scrooloose/nerdtree'
+Plug 'preservim/nerdtree'
 
 Plug 'jistr/vim-nerdtree-tabs'
 
