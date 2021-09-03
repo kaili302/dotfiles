@@ -6,14 +6,30 @@ echo "source $HOME/.profile"
 # =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 # commandline editing
 set -o emacs    # emacs style command line mode (default)
+export EDITOR=vim
+export VISUAL=vim
 
 stty sane # should normalize backspace issues
 stty -ixon # prevent ctrl-s freeze terminal
 
-# set timezone to london, important for interaction with comdb2 databases
-export TZ="Europe/London"
+# Better command history
+HISTFILESIZE=-1
+HISTSIZE=1000000
+shopt -s histappend
+HISTCONTROL=ignoredups
+PROMPT_COMMAND="history -a; $PROMPT_COMMAND"
 
-# export TERM=screen-256color
+# Auto-complete
+bind 'set show-all-if-ambiguous on'
+bind 'TAB:menu-complete'
+bind '"\e[Z":menu-complete-backward'
+
+# set timezone to london
+#export TZ="Europe/London"
+
+export PATH=$PATH:$HOME/bin
+BASE_DIR="/home/$USER"
+export BASE_DIR
 
 # set terminal to support utf-8
 if ! [ -x "$(command -v locale)" ]; then
@@ -29,7 +45,6 @@ fi
 export GTEST_COLOR=yes
 
 # Aliasing
-
 #ls is quite a long command
 alias ls='ls -h'
 alias ll='ls -lih'
@@ -52,6 +67,28 @@ alias gitlg='git log --graph --pretty=format:'\''%Cred%h%Creset -%C(yellow)%d%Cr
 alias gitup='git push --set-upstream origin'
 alias gitsync='git pull upstream master'
 alias gitclean='git branch|grep -v master|xargs git branch -D'
+
+# Bash alias
+mkcd() {
+  mkdir -p "$1" && cd "$1"
+}
+alias j="jobs"
+jk() {
+  kill -9 %$1
+}
+alias kgrep="grep --color -r -I" # -I do not match binary
+
+# Tmux aliasing
+alias tmux="tmux -u -2"
+alias tls="tmux -u -2 ls"
+alias tt="tmux -u -2 attach -t"
+
+
+ksed(){
+    set -o xtrace
+    grep '--exclude-dir=cmake.bld' -rl "$1" | xargs sed -i "s/$1/$2/"
+    set +o xtrace
+}
 
 # Normal Colors
 Black='\e[0;30m'        # Black
@@ -86,18 +123,52 @@ On_White='\e[47m'       # White
 NC="\e[m"               # Color Reset
 Color_Off=$NC
 
-# Tmux aliasing
-alias tmux="tmux -u -2"
-alias tls="tmux -u -2 ls"
-alias tt="tmux -u -2 attach -t"
+colortest() {
+  local color escapes intensity style
+  echo "NORMAL bold  dim   itali under rever strik  BRIGHT bold  dim   itali under rever strik"
+  for color in $(seq 0 7); do
+    for intensity in 3 9; do  # normal, bright
+      escapes="${intensity}${color}"
+      printf '\e[%sm\\e[%sm\e[0m ' "$escapes" "$escapes"
+      for style in 1 2 3 4 7 9; do  # normal, bold, dim, italic, underline, reverse, strikethrough
+        escapes="${intensity}${color};${style}"
+        printf '\e[%sm\\e[%sm\e[0m ' "$escapes" "$style"
+      done
+      echo -n " "
+    done
+    echo
+  done
 
-alias j="jobs"
+  awk 'BEGIN{
+    columns = 78;
+    step = columns / 6;
+    for (hue = 0; hue<columns; hue++) {
+      x = (hue % step) * 255 / step;
+      if (hue < step) {
+        r = 255; g = x; b = 0;
+      } else if (hue < step*2) {
+        r = 255-x; g = 255; b = 0;
+      } else if (hue < step*3) {
+        r = 0; g = 255; b = x;
+      } else if (hue < step*4) {
+        r = 0; g = 255-x; b = 255;
+      } else if (hue < step*5) {
+        r = x; g = 0; b = 255;
+      } else {
+        r = 255; g = 0; b = 255-x;
+      }
+      printf "\033[48;2;%d;%d;%dm", r, g, b;
+      printf "\033[38;2;%d;%d;%dm", 255-r, 255-g, 255-b;
+      printf " \033[0m";
+    }
+    printf "\n";
+  }'
+}
 
 # Python
 # For python development, always use venv
 alias venv-activate="source ~/.venv/bin/activate"
 alias pretty-json="python -m json.tool"
-
 
 # fzf
 # Do not search hidden file and repos
@@ -127,7 +198,6 @@ sort_words(){
     echo "$1" | tr " " "\n" | sort | tr "\n" " " ;echo
     set +o xtrace # End printing all commands
 }
-
 
 # short functions
 itest(){
@@ -172,23 +242,10 @@ rmcacheall(){
     set +o xtrace
 }
 
-export PATH=$HOME/bin:$PATH
-
 # other configurations
 if [ -f "$HOME/.others" ]; then
     echo "source $HOME/.others"
     source $HOME/.others
 fi
 
-# run zsh if not yet
-if ! ps $$|grep -q "zsh";then
-    zsh
-fi
 
-alias kgrep="grep -r -I" # -I do not match binary
-
-ksed(){
-    set -o xtrace
-    grep '--exclude-dir=cmake.bld' -rl "$1" | xargs sed -i "s/$1/$2/"
-    set +o xtrace
-}

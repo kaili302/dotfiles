@@ -1,2 +1,13 @@
+# These bindings change the behavior of the Up/Down arrow keys to cycle through commands that start with the prefix you've already typed.
+# For example, type "ssh" and then press Up to recall the previous command that started with "ssh".
 "\e[A": history-search-backward
 "\e[B": history-search-forward
+
+# This enables briefly highlighting the opening parenthesis/bracket when you type the closing parenthesis/bracket.
+set blink-matching-paren on
+
+# This enables colored highlighting of the part you've typed so far in completion results. For example, if you type "foo" and hit Tab, the possible completions "foobar" and "foobaz" would be printed with "foo" highlighted, which makes it easier to recognize visually what you need to type next.
+set colored-completion-prefix on
+
+# assuming your terminal supports bracketed paste (iTerm does), this allows you to paste blobs of text without any characters being interpreted as editing commands. Most importantly, this means pasted newlines won't cause commands to execute immediately. If you use Tmux, you'll also want to configure it to use bracketed paste.
+set enable-bracketed-paste on

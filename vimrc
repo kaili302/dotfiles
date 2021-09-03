@@ -1,3 +1,4 @@
+
 " Never put any lines in .vimrc that you don't understand.
 " https://dougblack.io/words/a-good-vimrc.html
 "
@@ -27,7 +28,7 @@ Plug 'bling/vim-airline'
 
 Plug 'vim-airline/vim-airline-themes'
 
-Plug 'mileszs/ack.vim'
+" Plug 'mileszs/ack.vim'
 
 Plug 'joshdick/onedark.vim'
 
@@ -39,12 +40,12 @@ Plug 'vim-scripts/a.vim'
 
 Plug 'kien/ctrlp.vim'
 
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
+" Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
 Plug 'elzr/vim-json'
 
 " Install for Linux
-Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+" Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 
 " {{{ Optional
 " Plug 'vim-scripts/DoxygenToolkit.vim' don't need at BB
@@ -71,6 +72,8 @@ call plug#end()
 " Leader {{{
 let mapleader=","
 " }}}
+"
+source $LOCAL_ADMIN_SCRIPTS/master.vimrc
 
 " Basic {{{
 syntax on
@@ -126,7 +129,7 @@ set hlsearch
 
 set ttyfast
 
-set synmaxcol=128
+" set synmaxcol=128
 syntax sync minlines=256
 
 set ignorecase
