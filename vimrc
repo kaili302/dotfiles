@@ -20,7 +20,7 @@ Plug 'scrooloose/nerdtree'
 
 Plug 'jistr/vim-nerdtree-tabs'
 
-Plug 'scrooloose/nerdcommenter'
+Plug 'preservim/nerdcommenter'
 
 Plug 'wesQ3/vim-windowswap'
 
@@ -82,6 +82,15 @@ set number
 set cul!
 set encoding=utf-8
 set spell spelllang=en_us
+
+" true color support
+set t_Co=256  " make sure iterms and tmux both use xterm-256color
+set termguicolors
+if &term =~# '^screen'
+    let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
+    let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
+endif
+
 " {{{ disable command historical view
 map <C-f> <Nop>
 nnoremap q: <nop>
@@ -108,9 +117,15 @@ set backspace=indent,eol,start " make the backspace work nicely
 " }}}
 
 " {{{ NerdCommenter
-nnoremap <C-_> :call NERDComment(0,"toggle")<CR>
-    " For some reason, vim registers <C-/> as <C-_>
-vnoremap <C-_> :call NERDComment(0,"toggle")<CR>
+" For some reason, vim registers <C-/> as <C-_>
+nnoremap <C-_> :call nerdcommenter#Comment(0,"toggle")<CR>
+vnoremap <C-_> :call nerdcommenter#Comment(0,"toggle")<CR>
+" Allow commenting and inverting empty lines (useful when commenting a region)
+let g:NERDCommentEmptyLines = 1
+" Enable trimming of trailing whitespace when uncommenting
+let g:NERDTrimTrailingWhitespace = 1
+" Enable NERDCommenterToggle to check all selected lines is commented or not
+let g:NERDToggleCheckAllLines = 1
 " }}}
 
 " Paste mode and Number mode {{{

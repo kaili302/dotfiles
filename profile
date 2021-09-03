@@ -8,6 +8,7 @@ echo "source $HOME/.profile"
 set -o emacs    # emacs style command line mode (default)
 export EDITOR=vim
 export VISUAL=vim
+export TERM=xterm-256color
 
 stty sane # should normalize backspace issues
 stty -ixon # prevent ctrl-s freeze terminal
