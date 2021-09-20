@@ -27,9 +27,6 @@ if [ -n "$BASH" ] ;then
     bind '"\e[Z":menu-complete-backward'
 fi
 
-# set timezone to london
-#export TZ="Europe/London"
-
 export PATH=$PATH:$HOME/bin
 BASE_DIR="/home/$USER"
 export BASE_DIR
@@ -86,6 +83,9 @@ alias tmux="tmux -u -2"
 alias tls="tmux -u -2 ls"
 alias tt="tmux -u -2 attach -t"
 
+
+alias utc-date="TZ=UTC date"
+alias ldn-date="TZ=Europe/London date"
 
 ksed(){
     set -o xtrace
