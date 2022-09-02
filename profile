@@ -16,7 +16,7 @@ stty -ixon # prevent ctrl-s freeze terminal
 # Better command history
 HISTFILESIZE=-1
 HISTSIZE=1000000
-shopt -s histappend
+# shopt -s histappend
 HISTCONTROL=ignoredups
 PROMPT_COMMAND="history -a; $PROMPT_COMMAND"
 
@@ -251,4 +251,5 @@ if [ -f "$HOME/.others" ]; then
     source $HOME/.others
 fi
 
+alias cls='clear&&printf "\33c\e[3J"'
 
