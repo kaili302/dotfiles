@@ -253,3 +253,5 @@ fi
 
 alias cls='clear&&printf "\33c\e[3J"'
 
+PROMPT="%(?:%{$fg_bold[green]%}➜ :%{$fg_bold[red]%}➜ )"
+PROMPT+=' %{$fg[cyan]%}%~%{$reset_color%} $(git_prompt_info)'
