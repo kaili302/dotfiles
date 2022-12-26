@@ -71,8 +71,7 @@ call plug#end()
 let mapleader=","
 " }}}
 "
-source $LOCAL_ADMIN_SCRIPTS/master.vimrc
-
+"
 " Basic {{{
 syntax on
 set mouse=nicr
