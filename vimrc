@@ -38,6 +38,8 @@ Plug 'vim-scripts/a.vim'
 
 Plug 'kien/ctrlp.vim'
 
+Plug 'MattesGroeger/vim-bookmarks'
+
 " Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
 Plug 'elzr/vim-json'
@@ -309,6 +311,18 @@ let g:airline_theme='murmur'
 set foldmethod=manual
 let g:vim_json_syntax_conceal = 0
 " }}}
+
+" {{{ vim vim-bookmarks
+let g:bookmark_no_default_key_mappings = 1 " disable default key mapping
+nmap <Leader>bb <Plug>BookmarkToggle
+nmap <Leader>bi <Plug>BookmarkAnnotate
+nmap <Leader>ba <Plug>BookmarkShowAll
+
+let g:bookmark_save_per_working_dir = 1
+let g:bookmark_auto_save = 1
+let g:bookmark_location_list = 1
+" }}}
+
 
 
 """ Help Documents {{{
