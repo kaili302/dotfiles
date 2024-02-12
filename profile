@@ -1,8 +1,3 @@
-# ~/.profile skeleton
-# ~/.profile runs on interactive login shells if it exists
-# =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-echo "source $HOME/.profile"
-
 # =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 # commandline editing
 set -o emacs    # emacs style command line mode (default)
@@ -253,6 +248,7 @@ fi
 
 alias cls='clear&&printf "\33c\e[3J"'
 alias g20='g++ --std=c++20 -g -pthread'
+alias clang-objc='clang -fobjc-arc'
 
-PROMPT="%(?:%{$fg_bold[green]%}➜ :%{$fg_bold[red]%}➜ )"
-PROMPT+=' %{$fg[cyan]%}%~%{$reset_color%} $(git_prompt_info)'
+# PROMPT="%(?:%{$fg_bold[green]%}➜ :%{$fg_bold[red]%}➜ )"
+# PROMPT+=' %{$fg[cyan]%}%~%{$reset_color%} $(git_prompt_info)'

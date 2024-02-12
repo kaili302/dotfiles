@@ -5,11 +5,6 @@
         "command": "workbench.action.toggleMaximizedPanel"
     },
     {
-        "key": "shift+cmd+i",
-        "command": "workbench.view.scm",
-        "when": "workbench.scm.active"
-    },
-    {
         "key": "ctrl+shift+g",
         "command": "-workbench.view.scm",
         "when": "workbench.scm.active"
@@ -524,11 +519,6 @@
         "when": "terminalFocus && terminalHasBeenCreated || terminalFocus && terminalProcessSupported"
     },
     {
-        "key": "cmd+f",
-        "command": "editor.action.nextMatchFindAction",
-        "when": "editorFocus"
-    },
-    {
         "key": "cmd+r",
         "command": "-workbench.action.reloadWindow",
         "when": "isDevelopment"
@@ -537,16 +527,6 @@
         "key": "cmd+r",
         "command": "-workbench.action.terminal.runRecentCommand",
         "when": "accessibilityModeEnabled && terminalFocus && terminalHasBeenCreated || accessibilityModeEnabled && terminalFocus && terminalProcessSupported || accessibilityModeEnabled && accessibleViewIsShown && terminalHasBeenCreated && accessibleViewCurrentProviderId == 'terminal' || accessibilityModeEnabled && accessibleViewIsShown && terminalProcessSupported && accessibleViewCurrentProviderId == 'terminal'"
-    },
-    {
-        "key": "cmd+r",
-        "command": "editor.action.previousMatchFindAction",
-        "when": "editorFocus"
-    },
-    {
-        "key": "shift+cmd+g",
-        "command": "-editor.action.previousMatchFindAction",
-        "when": "editorFocus"
     },
     {
         "key": "cmd+d",
@@ -560,5 +540,33 @@
     {
         "key": "ctrl+g",
         "command": "-workbench.action.gotoLine"
+    },
+    {
+        "key": "cmd+r",
+        "command": "-buck.run-default-build-debug-action"
+    },
+    {
+        "key": "cmd+r",
+        "command": "editor.action.startFindReplaceAction",
+        "when": "editorFocus || editorIsOpen"
+    },
+    {
+        "key": "alt+cmd+f",
+        "command": "-editor.action.startFindReplaceAction",
+        "when": "editorFocus || editorIsOpen"
+    },
+    {
+        "key": "ctrl+r",
+        "command": "-workbench.action.terminal.runRecentCommand",
+        "when": "accessibilityModeEnabled && terminalFocus && terminalHasBeenCreated || accessibilityModeEnabled && terminalFocus && terminalProcessSupported"
+    },
+    {
+        "key": "ctrl+r",
+        "command": "-workbench.action.openRecent"
+    },
+    {
+        "key": "ctrl+r",
+        "command": "-workbench.action.quickOpenNavigateNextInRecentFilesPicker",
+        "when": "inQuickOpen && inRecentFilesPicker"
     }
 ]
